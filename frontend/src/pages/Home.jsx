@@ -74,9 +74,9 @@ const Home = () => {
       {/* Hero Section */}
       <Box
         sx={{
-          background: 'linear-gradient(135deg, #1A1A2E 0%, #16213E 100%)',
+          background: 'linear-gradient(135deg, #665d5d 0%, #4a4242 100%)',
           color: 'white',
-          py: { xs: 10, md: 15 },
+          py: { xs: 12, md: 16 },
           position: 'relative',
           overflow: 'hidden',
           '&::before': {
@@ -86,7 +86,7 @@ const Home = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%)',
+            background: 'radial-gradient(circle at 20% 50%, rgba(220, 204, 192, 0.15) 0%, transparent 50%)',
             pointerEvents: 'none',
           }
         }}
@@ -106,10 +106,11 @@ const Home = () => {
                   sx={{ 
                     fontWeight: 800,
                     letterSpacing: '-0.02em',
-                    mb: 3
+                    mb: 3,
+                    fontFamily: '"Merriweather", serif',
                   }}
                 >
-                  {companyInfo?.tagline || siteConfig.tagline}
+                  {siteConfig.tagline}
                 </Typography>
                 <Typography 
                   variant="h5" 
@@ -120,7 +121,7 @@ const Home = () => {
                     lineHeight: 1.6
                   }}
                 >
-                  {companyInfo?.description || "Entreprise de rénovation professionnelle à votre service"}
+                  {siteConfig.description}
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                   <Button
@@ -134,10 +135,11 @@ const Home = () => {
                       px: 4,
                       py: 1.5,
                       fontSize: '1.1rem',
+                      fontWeight: 600,
                     }}
                     endIcon={<ArrowForwardIcon />}
                   >
-                    Demander un devis
+                    Demander un devis gratuit
                   </Button>
                   <Button
                     component={Link}
@@ -151,9 +153,10 @@ const Home = () => {
                       px: 4,
                       py: 1.5,
                       fontSize: '1.1rem',
+                      fontWeight: 600,
                       '&:hover': { 
                         borderColor: 'secondary.main',
-                        bgcolor: 'rgba(212, 175, 55, 0.1)',
+                        bgcolor: 'rgba(220, 204, 192, 0.1)',
                         borderWidth: 2,
                       },
                     }}
@@ -166,6 +169,90 @@ const Home = () => {
           </Grid>
         </Container>
       </Box>
+
+      {/* Company Story Section */}
+      <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <Box sx={{ textAlign: 'center', mb: 8 }}>
+            <Box className="accent-line accent-line-center" sx={{ bgcolor: 'secondary.main' }} />
+            <Typography variant="h2" gutterBottom sx={{ fontWeight: 700, fontFamily: '"Merriweather", serif' }}>
+              {siteConfig.story.title}
+            </Typography>
+          </Box>
+
+          <Grid container spacing={6} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <Typography 
+                variant="body1" 
+                paragraph 
+                sx={{ 
+                  lineHeight: 1.8, 
+                  fontSize: '1.1rem',
+                  color: 'text.primary',
+                  mb: 3
+                }}
+              >
+                {siteConfig.story.content}
+              </Typography>
+              
+              <Box sx={{ mt: 4 }}>
+                <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, mb: 2, fontFamily: '"Merriweather", serif' }}>
+                  Nos spécialités
+                </Typography>
+                <Box component="ul" sx={{ pl: 2 }}>
+                  {siteConfig.specialties.map((specialty, index) => (
+                    <Typography 
+                      key={index}
+                      component="li" 
+                      variant="body1" 
+                      sx={{ 
+                        mb: 1.5,
+                        lineHeight: 1.7,
+                        '&::marker': {
+                          color: 'secondary.main',
+                        }
+                      }}
+                    >
+                      {specialty}
+                    </Typography>
+                  ))}
+                </Box>
+              </Box>
+
+              <Box sx={{ mt: 4, p: 3, bgcolor: 'background.default', borderRadius: 2, borderLeft: '4px solid', borderColor: 'secondary.main' }}>
+                <Typography variant="body1" sx={{ fontStyle: 'italic', fontWeight: 500 }}>
+                  "Nous mettons un point d'honneur à respecter les délais, à assurer un suivi rigoureux et à offrir une qualité de finition reconnue. Toutes nos prestations sont bien entendu couvertes par une assurance décennale."
+                </Typography>
+              </Box>
+            </Grid>
+            
+            <Grid item xs={12} md={6}>
+              <Box
+                sx={{
+                  width: '100%',
+                  height: { xs: 300, md: 500 },
+                  bgcolor: 'background.default',
+                  borderRadius: 3,
+                  overflow: 'hidden',
+                  boxShadow: '0px 12px 32px rgba(102, 93, 93, 0.15)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Typography variant="body1" color="text.secondary">
+                  [Photo des deux propriétaires dans un intérieur rénové]
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </motion.div>
+      </Container>
 
       {/* Services Section */}
       <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }}>
@@ -360,7 +447,7 @@ const Home = () => {
       {/* CTA Section */}
       <Box 
         sx={{ 
-          background: 'linear-gradient(135deg, #D4AF37 0%, #E5C965 100%)',
+          background: 'linear-gradient(135deg, #dcccc0 0%, #c9b7a8 100%)',
           color: 'primary.main',
           py: { xs: 8, md: 12 },
           position: 'relative',
@@ -385,7 +472,7 @@ const Home = () => {
             viewport={{ once: true }}
           >
             <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h2" gutterBottom sx={{ fontWeight: 800, mb: 2 }}>
+              <Typography variant="h2" gutterBottom sx={{ fontWeight: 800, mb: 2, fontFamily: '"Merriweather", serif' }}>
                 Prêt à démarrer votre projet ?
               </Typography>
               <Typography variant="h5" sx={{ mb: 5, opacity: 0.9, fontWeight: 400 }}>
@@ -402,10 +489,11 @@ const Home = () => {
                   px: 5,
                   py: 2,
                   fontSize: '1.1rem',
+                  fontWeight: 600,
                   '&:hover': { 
                     bgcolor: 'primary.dark',
                     transform: 'translateY(-4px)',
-                    boxShadow: '0px 12px 24px rgba(26, 26, 46, 0.3)',
+                    boxShadow: '0px 12px 24px rgba(102, 93, 93, 0.3)',
                   },
                 }}
                 endIcon={<ArrowForwardIcon />}
@@ -421,3 +509,4 @@ const Home = () => {
 };
 
 export default Home;
+

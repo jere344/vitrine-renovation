@@ -18,6 +18,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SendIcon from '@mui/icons-material/Send';
 import { getCompanyInfo, sendContactMessage } from '../services/api';
 import { siteConfig } from '../config/site';
+import MapSection from '../components/contact/MapSection';
 
 const Contact = () => {
   const [companyInfo, setCompanyInfo] = useState(null);
@@ -546,6 +547,11 @@ const Contact = () => {
             </motion.div>
           </Box>
       </Container>
+
+      {/* Map Section */}
+      <Box sx={{ bgcolor: 'background.default', py: { xs: 6, md: 10 } }}>
+        <MapSection companyInfo={companyInfo} />
+      </Box>
     </>
   );
 };

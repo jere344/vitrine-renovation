@@ -1,0 +1,30 @@
+---
+deployment:
+  tasks:
+    - echo "Starting deployment for Campilongo Frères Rénovation"
+    
+    # Define paths
+    - export DJANGO_VENV_PATH=$HOME/virtualenv/campilongo_api/3.12/bin/activate
+    - export DJANGO_PATH=$HOME/campilongo_api
+    - export REP_DJANGO_PATH=$HOME/repositories/vitrine-renovation/backend
+    - export REACT_PATH=$HOME/campilongo_app
+    - export REP_REACT_PATH=$HOME/repositories/vitrine-renovation/frontend
+
+    # Copy from the repository to the deployment folder
+    - rsync -av $REP_DJANGO_PATH/ $DJANGO_PATH
+    - rsync -av $REP_REACT_PATH/ $REACT_PATH
+
+    # Setup Python environment
+    - source $DJANGO_VENV_PATH
+    - pip install -r $DJANGO_PATH/requirements.txt
+    - python3 $DJANGO_PATH/manage.py migrate
+    - python3 $DJANGO_PATH/manage.py collectstatic --noinput
+
+    # Setup React environment
+    # Build is done locally and pushed to repository
+    # We just move the build folder to the public folder
+    - rsync -av --delete $REP_REACT_PATH/dist/ $HOME/campilongofreres.fr
+    - chmod -R 755 $HOME/campilongofreres.fr
+    - cp $REP_REACT_PATH/.htaccess $HOME/campilongofreres.fr/.htaccess
+
+    - echo "Deployment completed successfully"

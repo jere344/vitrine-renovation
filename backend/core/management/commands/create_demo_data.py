@@ -4,69 +4,85 @@ from datetime import date
 
 
 class Command(BaseCommand):
-    help = 'Populate database with demo data'
+    help = 'Populate database with demo data for Campilongo Frères Rénovation'
 
-    def handle(self, *args, **kwargs):
-        self.stdout.write('Creating demo data...')
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--clear',
+            action='store_true',
+            help='Delete all existing data before creating new demo data',
+        )
+
+    def handle(self, *args, **options):
+        if options['clear']:
+            self.stdout.write(self.style.WARNING('Clearing existing data...'))
+            CompanyInfo.objects.all().delete()
+            Service.objects.all().delete()
+            Project.objects.all().delete()
+            Testimonial.objects.all().delete()
+            self.stdout.write(self.style.SUCCESS('✓ All existing data cleared\n'))
+
+        self.stdout.write('Creating demo data for Campilongo Frères Rénovation...')
 
         # Create Company Info
         if not CompanyInfo.objects.exists():
             company = CompanyInfo.objects.create(
-                company_name="Rénovation Prestige",
-                tagline="Votre partenaire de confiance pour tous vos projets de rénovation",
-                description="Depuis plus de 15 ans, Rénovation Prestige accompagne particuliers et professionnels dans leurs projets de rénovation. Notre équipe d'artisans qualifiés met son savoir-faire à votre service pour transformer vos espaces de vie.",
-                phone="+33 1 23 45 67 89",
-                email="contact@renovation-prestige.fr",
-                address="123 Rue de la Rénovation\n75015 Paris",
-                facebook_url="https://facebook.com/renovation-prestige",
-                instagram_url="https://instagram.com/renovation_prestige",
-                meta_description="Entreprise de rénovation à Paris spécialisée dans les travaux de rénovation complète, cuisine, salle de bain. Devis gratuit.",
-                meta_keywords="rénovation Paris, travaux rénovation, rénovation maison, rénovation appartement, cuisine, salle de bain"
+                company_name="Campilongo Frères Rénovation",
+                tagline="Depuis 20 ans, nous transformons vos espaces en lieux de vie exceptionnels",
+                description="Entreprise familiale basée à Lattes depuis plus de 20 ans, Campilongo Frères Rénovation est votre partenaire de confiance pour tous vos projets de plomberie et de rénovation. Notre expertise, notre passion du travail bien fait et notre engagement envers la satisfaction client font de nous un acteur incontournable de la rénovation dans la région de Montpellier.",
+                phone="+33 (0)4 XX XX XX XX",
+                email="thomascampilongo@yahoo.fr",
+                address="Lattes, Hérault (34)",
+                facebook_url="https://facebook.com/campilongofreres",
+                instagram_url="https://instagram.com/campilongo_renovation",
+                linkedin_url="",
+                meta_description="Entreprise de rénovation et plomberie à Lattes, Montpellier. Plus de 20 ans d'expérience. Devis gratuit pour vos travaux de rénovation.",
+                meta_keywords="rénovation Lattes, plomberie Montpellier, travaux rénovation Hérault, rénovation maison, cuisine, salle de bain"
             )
             self.stdout.write(self.style.SUCCESS('✓ Company info created'))
 
         # Create Services
         services_data = [
             {
-                'title': 'Rénovation Complète',
-                'description': 'Nous prenons en charge la rénovation complète de votre logement, de la démolition à la finition. Notre équipe coordonne tous les corps de métier pour vous garantir un résultat parfait dans les délais impartis.',
-                'short_description': 'Rénovation totale de votre logement, clé en main',
-                'icon': 'HomeRepairService',
+                'title': 'Plomberie Générale',
+                'description': 'Installation, réparation et entretien de tous vos équipements sanitaires. Dépannage d\'urgence, détection de fuites, remplacement de chauffe-eau, installation de robinetterie... Nos plombiers certifiés interviennent rapidement et efficacement pour résoudre tous vos problèmes de plomberie.',
+                'short_description': 'Installation et réparation de tous équipements sanitaires',
+                'icon': 'Plumbing',
                 'order': 1
             },
             {
-                'title': 'Rénovation de Cuisine',
-                'description': 'Créez la cuisine de vos rêves avec notre expertise. Nous vous accompagnons dans le choix des matériaux, l\'agencement optimal et la réalisation de votre projet, en respectant votre budget.',
-                'short_description': 'Conception et réalisation de cuisines sur mesure',
-                'icon': 'Kitchen',
+                'title': 'Rénovation de Salle de Bain',
+                'description': 'Transformez votre salle de bain en un espace moderne et fonctionnel. De la conception à la réalisation, nous prenons en charge l\'intégralité de votre projet : démolition, plomberie, carrelage, électricité, pose de sanitaires et finitions. Douche italienne, baignoire, meuble vasque... nous créons la salle de bain de vos rêves.',
+                'short_description': 'Création de salles de bain sur mesure',
+                'icon': 'Bathroom',
                 'order': 2
             },
             {
-                'title': 'Rénovation de Salle de Bain',
-                'description': 'Transformez votre salle de bain en un espace de bien-être. Plomberie, carrelage, électricité, nous gérons tous les aspects techniques pour créer une salle de bain moderne et fonctionnelle.',
-                'short_description': 'Création de salles de bain modernes et fonctionnelles',
-                'icon': 'Bathroom',
+                'title': 'Rénovation de Cuisine',
+                'description': 'Cuisine équipée, îlot central, plan de travail... nous réalisons votre cuisine idéale. Notre équipe coordonne tous les corps de métier (plomberie, électricité, carrelage, menuiserie) pour vous livrer une cuisine clé en main, fonctionnelle et esthétique.',
+                'short_description': 'Conception et installation de cuisines équipées',
+                'icon': 'Kitchen',
                 'order': 3
             },
             {
-                'title': 'Peinture et Revêtements',
-                'description': 'Donnez une nouvelle vie à vos murs et sols avec nos services de peinture et pose de revêtements. Peinture décorative, papier peint, parquet, carrelage... nous maîtrisons tous les revêtements.',
-                'short_description': 'Application de peinture et pose de tous types de revêtements',
-                'icon': 'FormatPaint',
+                'title': 'Aménagement de Rangements',
+                'description': 'Optimisez votre espace avec des solutions de rangement sur mesure. Placards, dressings, étagères murales, meubles sous escalier... nous créons des rangements parfaitement adaptés à votre configuration et vos besoins.',
+                'short_description': 'Création d\'espaces de rangement optimisés',
+                'icon': 'Inventory',
                 'order': 4
             },
             {
-                'title': 'Aménagement Intérieur',
-                'description': 'Optimisez votre espace avec nos solutions d\'aménagement sur mesure. Placards, dressings, bibliothèques... nous créons des rangements adaptés à vos besoins.',
-                'short_description': 'Création d\'espaces de rangement sur mesure',
-                'icon': 'Weekend',
+                'title': 'Rénovation Complète',
+                'description': 'Confiez-nous la rénovation intégrale de votre logement. Nous gérons l\'ensemble du projet de A à Z : démolition, gros œuvre, second œuvre (plomberie, électricité, isolation), revêtements, peinture et finitions. Un seul interlocuteur pour toutes vos rénovations.',
+                'short_description': 'Rénovation totale de votre logement, clé en main',
+                'icon': 'HomeRepairService',
                 'order': 5
             },
             {
-                'title': 'Travaux d\'Électricité',
-                'description': 'Mise aux normes électriques, installation de nouveaux circuits, domotique... nos électriciens certifiés garantissent la sécurité et la conformité de votre installation.',
-                'short_description': 'Installation et mise aux normes électriques',
-                'icon': 'ElectricalServices',
+                'title': 'Travaux d\'Entretien',
+                'description': 'Petits travaux de réparation, entretien régulier, dépannage... nous intervenons rapidement pour tous vos besoins du quotidien. Robinetterie, joints, petite plomberie, accroches murales, notre équipe est à votre écoute.',
+                'short_description': 'Dépannage et petits travaux au quotidien',
+                'icon': 'Build',
                 'order': 6
             }
         ]
@@ -80,65 +96,96 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f'✓ Service created: {service.title}'))
 
         # Create Projects
-        kitchen_service = Service.objects.filter(title='Rénovation de Cuisine').first()
         bathroom_service = Service.objects.filter(title='Rénovation de Salle de Bain').first()
+        kitchen_service = Service.objects.filter(title='Rénovation de Cuisine').first()
+        storage_service = Service.objects.filter(title='Aménagement de Rangements').first()
         complete_service = Service.objects.filter(title='Rénovation Complète').first()
 
         projects_data = [
             {
-                'title': 'Cuisine Moderne Paris 15ème',
-                'description': 'Rénovation complète d\'une cuisine de 15m² dans un appartement parisien. Le projet incluait la démolition de l\'ancienne cuisine, la création d\'un nouvel agencement optimisé, l\'installation d\'une cuisine équipée haut de gamme avec îlot central, et la pose de carrelage effet béton ciré.\n\nLes propriétaires souhaitaient une cuisine moderne et fonctionnelle avec beaucoup de rangements. Nous avons créé un espace lumineux et convivial qui répond parfaitement à leurs attentes.',
-                'short_description': 'Transformation d\'une cuisine traditionnelle en espace moderne et fonctionnel',
-                'location': 'Paris 15ème',
-                'completion_date': date(2024, 6, 15),
+                'title': 'Salle de Bain Moderne à Lattes',
+                'description': 'Rénovation complète d\'une salle de bain de 9m² dans une maison à Lattes. Le projet incluait la démolition de l\'ancienne salle de bain, la création d\'une douche italienne avec paroi en verre, l\'installation d\'un meuble vasque double avec miroir lumineux, et la pose de carrelage grand format effet marbre.\n\nLes propriétaires souhaitaient une salle de bain lumineuse et spacieuse. Nous avons optimisé l\'espace en créant une douche à l\'italienne et en installant des rangements astucieux. Le résultat : un espace moderne, fonctionnel et élégant.',
+                'short_description': 'Transformation complète avec douche italienne et finitions haut de gamme',
+                'location': 'Lattes',
+                'completion_date': date(2024, 9, 15),
+                'duration': '2 semaines',
+                'surface': '9 m²',
+                'service': bathroom_service,
+                'is_featured': True,
+                'featured_image': 'https://picsum.photos/seed/bathroom1/800/600',
+                'order': 1
+            },
+            {
+                'title': 'Cuisine Ouverte à Pérols',
+                'description': 'Création d\'une cuisine ouverte sur le salon dans un appartement à Pérols. Le projet comprenait la démolition du mur séparatif, l\'installation d\'une cuisine équipée avec îlot central, la réfection de la plomberie et de l\'électricité, et la pose de carrelage effet bois.\n\nL\'objectif était de créer un espace de vie convivial et lumineux. Nous avons conçu une cuisine fonctionnelle avec de nombreux rangements et un îlot central servant de coin repas. Le client est ravi du résultat qui a transformé son appartement.',
+                'short_description': 'Ouverture d\'espace et installation d\'une cuisine moderne avec îlot',
+                'location': 'Pérols',
+                'completion_date': date(2024, 7, 20),
                 'duration': '3 semaines',
                 'surface': '15 m²',
                 'service': kitchen_service,
                 'is_featured': True,
-                'order': 1
-            },
-            {
-                'title': 'Salle de Bain Zen Neuilly',
-                'description': 'Création d\'une salle de bain zen et épurée dans une maison à Neuilly. Le projet comprenait la pose de carrelage grand format, l\'installation d\'une douche italienne avec paroi en verre, la création d\'un meuble vasque sur mesure, et l\'installation d\'une robinetterie design.\n\nL\'objectif était de créer un espace de détente rappelant les spas contemporains, avec des matériaux nobles et une attention particulière portée à l\'éclairage.',
-                'short_description': 'Création d\'un espace bien-être moderne et relaxant',
-                'location': 'Neuilly-sur-Seine',
-                'completion_date': date(2024, 5, 20),
-                'duration': '2 semaines',
-                'surface': '8 m²',
-                'service': bathroom_service,
-                'is_featured': True,
+                'featured_image': 'https://picsum.photos/seed/kitchen1/800/600',
                 'order': 2
             },
             {
-                'title': 'Appartement Haussmannien Réhabilité',
-                'description': 'Rénovation complète d\'un appartement haussmannien de 90m² à Paris. Le projet incluait la réfection complète de l\'électricité et de la plomberie, la restauration des moulures et parquets anciens, la création d\'une cuisine ouverte, la rénovation de deux salles de bain, et la peinture de tous les espaces.\n\nNous avons su préserver le charme de l\'ancien tout en apportant le confort moderne : isolation phonique et thermique, domotique, équipements contemporains.',
-                'short_description': 'Réhabilitation complète d\'un appartement parisien avec préservation du cachet',
-                'location': 'Paris 9ème',
-                'completion_date': date(2024, 3, 30),
-                'duration': '8 semaines',
-                'surface': '90 m²',
-                'service': complete_service,
+                'title': 'Dressing Sur Mesure à Montpellier',
+                'description': 'Aménagement d\'un dressing sur mesure dans une chambre de 12m² à Montpellier. Création d\'une structure en bois avec étagères, penderies, tiroirs et éclairage LED intégré. Optimisation maximale de l\'espace disponible avec des solutions de rangement adaptées aux besoins du client.',
+                'short_description': 'Rangement optimisé avec finitions soignées',
+                'location': 'Montpellier',
+                'completion_date': date(2024, 10, 5),
+                'duration': '1 semaine',
+                'surface': '8 m²',
+                'service': storage_service,
                 'is_featured': True,
+                'featured_image': 'https://picsum.photos/seed/storage1/800/600',
                 'order': 3
             },
             {
-                'title': 'Studio Optimisé Montmartre',
-                'description': 'Réaménagement complet d\'un studio de 25m² à Montmartre. Création d\'un espace de vie optimisé avec cuisine équipée, salle de bain moderne, et rangements sur mesure. Installation d\'une mezzanine pour l\'espace nuit.',
-                'short_description': 'Optimisation d\'un petit espace avec solutions de rangement',
-                'location': 'Paris 18ème',
-                'completion_date': date(2024, 4, 10),
-                'duration': '3 semaines',
-                'surface': '25 m²',
+                'title': 'Rénovation Appartement Castelnau-le-Lez',
+                'description': 'Rénovation complète d\'un appartement de 65m² à Castelnau-le-Lez. Le projet incluait la réfection complète de la salle de bain, la rénovation de la cuisine, la pose de parquet dans les chambres, la peinture de tous les murs et plafonds, et la mise aux normes électriques.\n\nTravaux réalisés en 6 semaines avec un souci constant de la qualité et du respect des délais. Le résultat : un appartement moderne et confortable, prêt à être habité.',
+                'short_description': 'Rénovation totale d\'un appartement, tous corps d\'état',
+                'location': 'Castelnau-le-Lez',
+                'completion_date': date(2024, 6, 30),
+                'duration': '6 semaines',
+                'surface': '65 m²',
                 'service': complete_service,
                 'is_featured': False,
+                'featured_image': 'https://picsum.photos/seed/apartment1/800/600',
                 'order': 4
+            },
+            {
+                'title': 'Salle de Bain Parentale à Palavas',
+                'description': 'Création d\'une suite parentale avec salle de bain attenante dans une maison à Palavas-les-Flots. Installation d\'une baignoire îlot, double vasque, WC suspendu, et carrelage effet pierre naturelle. Ambiance spa pour un espace détente au quotidien.',
+                'short_description': 'Suite parentale avec ambiance spa et matériaux nobles',
+                'location': 'Palavas-les-Flots',
+                'completion_date': date(2024, 8, 15),
+                'duration': '3 semaines',
+                'surface': '12 m²',
+                'service': bathroom_service,
+                'is_featured': False,
+                'featured_image': 'https://picsum.photos/seed/bathroom2/800/600',
+                'order': 5
+            },
+            {
+                'title': 'Cuisine Équipée à Lattes',
+                'description': 'Installation d\'une cuisine équipée dans une maison neuve à Lattes. Cuisine en L avec électroménager encastré, plan de travail en quartz, et crédence en verre. Raccordements plomberie et électricité, pose de carrelage. Une cuisine fonctionnelle et moderne.',
+                'short_description': 'Installation complète avec électroménager et finitions haut de gamme',
+                'location': 'Lattes',
+                'completion_date': date(2024, 5, 10),
+                'duration': '2 semaines',
+                'surface': '12 m²',
+                'service': kitchen_service,
+                'is_featured': False,
+                'featured_image': 'https://picsum.photos/seed/kitchen2/800/600',
+                'order': 6
             }
         ]
 
         for project_data in projects_data:
             project, created = Project.objects.get_or_create(
                 title=project_data['title'],
-                defaults={**project_data, 'featured_image': 'projects/placeholder.jpg'}
+                defaults=project_data
             )
             if created:
                 self.stdout.write(self.style.SUCCESS(f'✓ Project created: {project.title}'))
@@ -146,32 +193,46 @@ class Command(BaseCommand):
         # Create Testimonials
         testimonials_data = [
             {
-                'client_name': 'Sophie Martin',
-                'client_location': 'Paris 15ème',
-                'content': 'Équipe très professionnelle et à l\'écoute. Notre cuisine a été rénovée dans les temps et le résultat est magnifique. Je recommande vivement !',
+                'client_name': 'Marie et Pierre D.',
+                'client_location': 'Lattes',
+                'content': 'Excellente équipe ! Notre salle de bain a été rénovée en seulement 2 semaines. Travail soigné, respect des délais et excellent conseil. Nous sommes ravis du résultat final, c\'est exactement ce que nous voulions !',
                 'rating': 5,
                 'order': 1
             },
             {
-                'client_name': 'Jean Dupont',
-                'client_location': 'Neuilly-sur-Seine',
-                'content': 'Travail soigné et respect des délais. La transformation de notre salle de bain a dépassé nos attentes. Merci pour votre professionnalisme.',
+                'client_name': 'Sophie M.',
+                'client_location': 'Pérols',
+                'content': 'Très professionnels et à l\'écoute de nos besoins. La transformation de notre cuisine a dépassé nos attentes. L\'ouverture sur le salon a complètement changé notre façon de vivre. Je recommande vivement !',
                 'rating': 5,
                 'order': 2
             },
             {
-                'client_name': 'Marie Lambert',
-                'client_location': 'Paris 9ème',
-                'content': 'Rénovation complète de notre appartement gérée de A à Z avec beaucoup de sérieux. L\'équipe a su préserver le cachet ancien tout en modernisant l\'ensemble.',
+                'client_name': 'Jean-Luc R.',
+                'client_location': 'Montpellier',
+                'content': 'Travail impeccable sur notre dressing. L\'équipe a su optimiser chaque centimètre d\'espace. Finitions soignées et respect du budget annoncé. Merci pour votre professionnalisme !',
                 'rating': 5,
                 'order': 3
             },
             {
-                'client_name': 'Pierre Moreau',
-                'client_location': 'Paris 18ème',
-                'content': 'Excellent rapport qualité-prix. Le suivi du chantier était impeccable et les artisans très compétents. Notre studio est maintenant fonctionnel et agréable.',
+                'client_name': 'Catherine L.',
+                'client_location': 'Castelnau-le-Lez',
+                'content': 'Rénovation complète de notre appartement gérée de A à Z. Aucun stress, tout était coordonné parfaitement. Les artisans sont compétents et respectueux. Excellent rapport qualité-prix.',
                 'rating': 5,
                 'order': 4
+            },
+            {
+                'client_name': 'Marc et Isabelle P.',
+                'client_location': 'Palavas-les-Flots',
+                'content': 'Notre suite parentale est magnifique ! L\'ambiance spa que nous souhaitions est parfaitement réussie. Merci pour votre créativité et la qualité de votre travail. Nous n\'hésiterons pas à faire appel à vous pour nos futurs projets.',
+                'rating': 5,
+                'order': 5
+            },
+            {
+                'client_name': 'Thomas B.',
+                'client_location': 'Lattes',
+                'content': 'Installation de notre cuisine dans les temps et dans les règles de l\'art. Équipe sympathique et de bon conseil. Le résultat est à la hauteur de nos espérances. Je recommande sans hésitation !',
+                'rating': 5,
+                'order': 6
             }
         ]
 
@@ -185,3 +246,5 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS('\n✓ Demo data creation completed!'))
         self.stdout.write(self.style.WARNING('\nNote: Project images are placeholders. Upload real images via Django admin.'))
+        self.stdout.write(self.style.SUCCESS('\nTo clear data and reload: python manage.py create_demo_data --clear'))
+

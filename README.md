@@ -1,6 +1,20 @@
-# Site Vitrine - Entreprise de Rénovation
+# Campilongo Frères Rénovation - Site Web
 
-Site web vitrine pour une entreprise de rénovation construit avec Django (backend) et React + Vite (frontend).
+Site web premium pour Campilongo Frères Rénovation, entreprise familiale spécialisée dans la plomberie et la rénovation intérieure à Lattes. Construit avec Django (backend) et React + Vite (frontend) avec un design moderne et élégant inspiré des sites web haut de gamme.
+
+## 🎨 Caractéristiques du Design
+
+- **Design Premium** : Interface élégante avec glassmorphisme, gradients et animations fluides
+- **Palette de Couleurs Personnalisée** : Intégration des couleurs du logo client (#dcccc0, #fefcfc, #665d5d)
+- **Typographie Sophistiquée** : Playfair Display pour les titres, Raleway/Montserrat pour le corps
+- **Responsive Design** : Parfaitement adapté aux mobiles, tablettes et ordinateurs
+- **Animations Premium** : Effets de hover, transitions fluides, apparitions progressives
+
+## 📚 Documentation
+
+- **[GUIDE_RAPIDE.md](GUIDE_RAPIDE.md)** : Guide de démarrage rapide pour utiliser le site
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** : Guide complet de déploiement sur cPanel
+- **[PROJET_RESUME.md](PROJET_RESUME.md)** : Résumé détaillé du projet et fonctionnalités
 
 ## Technologies utilisées
 
@@ -264,10 +278,86 @@ CORS_ALLOWED_ORIGINS=http://localhost:5173,http://localhost:5174
 VITE_API_URL=http://localhost:8000/api
 ```
 
-## Support
+## 🎯 Fonctionnalités Premium
 
-Pour toute question ou problème, contactez l'équipe de développement.
+### Design
+- ✅ Palette de couleurs personnalisée inspirée du logo
+- ✅ Glassmorphisme et effets de flou
+- ✅ Animations fluides avec Framer Motion
+- ✅ Navigation sticky avec effets au scroll
+- ✅ Cards premium avec hover effects
+- ✅ Filtres interactifs sur la page Réalisations
 
-## Licence
+### Pages
+- ✅ **Accueil** : Hero section + Histoire + Services + Témoignages + CTA
+- ✅ **Services** : Liste élégante des services
+- ✅ **Réalisations** : Grille responsive avec filtres (Tout, Cuisine, Salle de bain, Rangement)
+- ✅ **Détail Projet** : Galerie photos complète
+- ✅ **À propos** : Histoire de l'entreprise
+- ✅ **Contact** : Formulaire fonctionnel avec envoi d'email
 
-Propriétaire - Tous droits réservés
+### Technique
+- ✅ SEO optimisé avec meta tags
+- ✅ Performance optimisée (lazy loading, compression)
+- ✅ Déploiement automatisé via Git
+- ✅ Configuration cPanel complète
+- ✅ Email notifications
+- ✅ HTTPS/SSL ready
+
+## 🚀 Déploiement Rapide
+
+1. **Configuration cPanel**
+   ```bash
+   # Suivez le guide DEPLOYMENT.md pour la configuration complète
+   ```
+
+2. **Variables d'environnement**
+   ```env
+   # Backend (.env)
+   SECRET_KEY=votre-clé-secrète
+   DEBUG=False
+   ALLOWED_HOSTS=campilongofreres.fr,www.campilongofreres.fr,api.campilongofreres.fr
+   CONTACT_EMAIL=thomascampilongo@yahoo.fr
+   
+   # Frontend (.env.production)
+   VITE_API_URL=https://api.campilongofreres.fr/api
+   ```
+
+3. **Build et Déploiement**
+   ```bash
+   # Frontend
+   cd frontend
+   npm install
+   npm run build
+   
+   # Push sur Git - le déploiement automatique se déclenche
+   git add .
+   git commit -m "Deploy website"
+   git push origin main
+   ```
+
+## 📧 Contact
+
+### Client
+**Campilongo Frères Rénovation**
+- Email : thomascampilongo@yahoo.fr
+- Localisation : Lattes, France
+
+### Développeur
+**Jérémy Guerin**
+- LinkedIn : [Profil LinkedIn](https://www.linkedin.com/in/jérémy-guerin-b9019b255/)
+- GitHub : [jere344](https://github.com/jere344)
+
+## 🎓 Crédits
+
+Design inspiré du projet **ImmoShift** - Formation et coaching immobilier stratégique
+
+## 📄 Licence
+
+Propriétaire - Tous droits réservés © 2025 Campilongo Frères Rénovation
+
+---
+
+**Version** : 1.0  
+**Date** : Octobre 2025  
+**Statut** : ✅ Prêt pour la production

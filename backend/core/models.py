@@ -44,7 +44,8 @@ class Service(models.Model):
     description = models.TextField(verbose_name="Description")
     short_description = models.CharField(max_length=300, verbose_name="Description courte", blank=True)
     icon = models.CharField(max_length=50, verbose_name="Icône Material UI", default="HomeRepairService")
-    image = models.ImageField(upload_to='services/', blank=True, null=True, verbose_name="Image")
+    image = models.URLField(max_length=500, blank=True, verbose_name="Image (URL)", 
+                           default="https://picsum.photos/800/600")
     order = models.IntegerField(default=0, verbose_name="Ordre d'affichage")
     is_active = models.BooleanField(default=True, verbose_name="Actif")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -76,7 +77,8 @@ class Project(models.Model):
     surface = models.CharField(max_length=100, verbose_name="Surface", blank=True)
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, blank=True, 
                                 related_name='projects', verbose_name="Service associé")
-    featured_image = models.ImageField(upload_to='projects/', verbose_name="Image principale")
+    featured_image = models.URLField(max_length=500, verbose_name="Image principale (URL)", 
+                                     default="https://picsum.photos/800/600")
     is_featured = models.BooleanField(default=False, verbose_name="Projet mis en avant")
     is_active = models.BooleanField(default=True, verbose_name="Actif")
     order = models.IntegerField(default=0, verbose_name="Ordre d'affichage")
@@ -101,7 +103,8 @@ class ProjectImage(models.Model):
     """Additional images for a project"""
     project = models.ForeignKey(Project, on_delete=models.CASCADE, 
                                related_name='images', verbose_name="Projet")
-    image = models.ImageField(upload_to='projects/gallery/', verbose_name="Image")
+    image = models.URLField(max_length=500, verbose_name="Image (URL)", 
+                           default="https://picsum.photos/800/600")
     caption = models.CharField(max_length=200, blank=True, verbose_name="Légende")
     order = models.IntegerField(default=0, verbose_name="Ordre")
     created_at = models.DateTimeField(auto_now_add=True)

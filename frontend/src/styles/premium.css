@@ -16,11 +16,11 @@ html {
 
 /* Premium gradient backgrounds */
 .gradient-primary {
-  background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+  background: linear-gradient(135deg, #8B7355 0%, #6E5A42 100%);
 }
 
 .gradient-secondary {
-  background: linear-gradient(135deg, #D4AF37 0%, #E5C965 100%);
+  background: linear-gradient(135deg, #665d5d 0%, #4a4242 100%);
 }
 
 .gradient-overlay {
@@ -34,23 +34,23 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(22, 33, 62, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(139, 115, 85, 0.9) 0%, rgba(110, 90, 66, 0.85) 100%);
   z-index: 1;
 }
 
 /* Text gradient effect */
 .text-gradient {
-  background: linear-gradient(135deg, #D4AF37 0%, #E5C965 100%);
+  background: linear-gradient(135deg, #8B7355 0%, #dcccc0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Gold accent line */
+/* Warm accent line */
 .accent-line {
   width: 60px;
   height: 4px;
-  background: linear-gradient(90deg, #D4AF37 0%, #E5C965 100%);
+  background: linear-gradient(90deg, #8B7355 0%, #A38A70 100%);
   border-radius: 2px;
   margin: 16px 0;
 }
@@ -62,7 +62,7 @@ html {
 
 /* Premium box shadows */
 .shadow-premium {
-  box-shadow: 0px 8px 24px rgba(26, 26, 46, 0.12);
+  box-shadow: 0px 8px 24px rgba(139, 115, 85, 0.15);
 }
 
 .shadow-premium-hover {
@@ -70,7 +70,7 @@ html {
 }
 
 .shadow-premium-hover:hover {
-  box-shadow: 0px 12px 32px rgba(26, 26, 46, 0.18);
+  box-shadow: 0px 12px 32px rgba(139, 115, 85, 0.22);
   transform: translateY(-4px);
 }
 
@@ -87,7 +87,7 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(26, 26, 46, 0.6) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(58, 52, 48, 0.7) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -156,8 +156,8 @@ html {
   animation: fadeIn 0.6s ease-out;
 }
 
-/* Gold shine effect */
-@keyframes goldShine {
+/* Warm shine effect */
+@keyframes warmShine {
   0% {
     background-position: -100%;
   }
@@ -166,20 +166,20 @@ html {
   }
 }
 
-.gold-shine {
+.warm-shine {
   background: linear-gradient(
     90deg,
-    #D4AF37 0%,
-    #E5C965 25%,
-    #F4E4A8 50%,
-    #E5C965 75%,
-    #D4AF37 100%
+    #8B7355 0%,
+    #A38A70 25%,
+    #dcccc0 50%,
+    #A38A70 75%,
+    #8B7355 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: goldShine 3s linear infinite;
+  animation: warmShine 3s linear infinite;
 }
 
 /* Scrollbar styling */
@@ -189,27 +189,27 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f5f5f5;
+  background: #FAF8F5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #D4AF37 0%, #E5C965 100%);
+  background: linear-gradient(135deg, #8B7355 0%, #6E5A42 100%);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #B8941F 0%, #D4AF37 100%);
+  background: linear-gradient(135deg, #A38A70 0%, #8B7355 100%);
 }
 
 /* Selection color */
 ::selection {
-  background-color: rgba(212, 175, 55, 0.3);
-  color: #1A1A2E;
+  background-color: rgba(139, 115, 85, 0.25);
+  color: #3A3430;
 }
 
 ::-moz-selection {
-  background-color: rgba(212, 175, 55, 0.3);
-  color: #1A1A2E;
+  background-color: rgba(139, 115, 85, 0.25);
+  color: #3A3430;
 }
 
 /* Premium link styles */
@@ -220,12 +220,12 @@ a {
 }
 
 a:hover {
-  color: #D4AF37;
+  color: #8B7355;
 }
 
 /* Focus visible for accessibility */
 *:focus-visible {
-  outline: 2px solid #D4AF37;
+  outline: 2px solid #8B7355;
   outline-offset: 2px;
 }
 
@@ -237,14 +237,14 @@ a:hover {
 
 /* Glass morphism effect */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .glass-dark {
-  background: rgba(26, 26, 46, 0.7);
+  background: rgba(58, 52, 48, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -256,7 +256,7 @@ a:hover {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(212, 175, 55, 0.5) 50%,
+    rgba(139, 115, 85, 0.3) 50%,
     transparent 100%
   );
   margin: 48px 0;
@@ -269,16 +269,16 @@ a:hover {
 }
 
 .hover-glow:hover {
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 20px rgba(139, 115, 85, 0.35);
 }
 
 /* Pulse animation for CTA buttons */
 @keyframes pulse {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+    box-shadow: 0 0 0 0 rgba(139, 115, 85, 0.4);
   }
   50% {
-    box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+    box-shadow: 0 0 0 10px rgba(139, 115, 85, 0);
   }
 }
 
@@ -302,7 +302,7 @@ a:hover {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(212, 175, 55, 0.1),
+    rgba(139, 115, 85, 0.15),
     transparent
   );
   transition: left 0.5s ease;
