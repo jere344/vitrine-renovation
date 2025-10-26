@@ -1,0 +1,17 @@
+<html>
+  <body>
+    <h2>Nouveau message de contact</h2>
+    <p><strong>Nom :</strong> {{ data.name }}</p>
+    <p><strong>Email :</strong> {{ data.email }}</p>
+    {% if data.phone %}
+      <p><strong>Téléphone :</strong> {{ data.phone }}</p>
+    {% endif %}
+    {% if data.subject %}
+      <p><strong>Sujet :</strong> {{ data.subject }}</p>
+    {% endif %}
+    <hr />
+    <p>{{ data.message|linebreaks }}</p>
+    <hr />
+    <p>Envoyé automatiquement depuis le site vitrine.</p>
+  </body>
+</html>
