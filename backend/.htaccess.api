@@ -1,0 +1,70 @@
+# This file should be placed in the document root of api.campilongofreresrenovation.fr
+# (usually ~/api.campilongofreresrenovation.fr or the subdomain root)
+
+# Disable directory listing
+Options -Indexes
+
+# Protect sensitive files - deny access to database and config files
+<FilesMatch "^(db\.sqlite3|\.env|.*\.pyc|.*\.pyo)$">
+    Require all denied
+</FilesMatch>
+
+# Protect sensitive directories
+<DirectoryMatch "(__pycache__|\.git|migrations|management|backend/backend)">
+    Require all denied
+</DirectoryMatch>
+
+# Deny access to Python source files
+<FilesMatch "\.py$">
+    <If "%{REQUEST_URI} !~ m#passenger_wsgi\.py#">
+        Require all denied
+    </If>
+</FilesMatch>
+
+# Enable Passenger WSGI
+PassengerEnabled on
+PassengerAppRoot /home/jeremy-guerin/campilongo_api
+
+# Specify Python interpreter from virtual environment
+PassengerPython /home/jeremy-guerin/virtualenv/campilongo_api/3.12/bin/python3
+
+# Specify the WSGI file
+PassengerStartupFile passenger_wsgi.py
+PassengerAppType wsgi
+
+# Performance settings
+PassengerMinInstances 1
+PassengerMaxPoolSize 4
+PassengerMaxRequests 1000
+
+# Environment
+PassengerAppEnv production
+
+# Restart command (touch tmp/restart.txt to restart the app)
+PassengerRestartDir tmp
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set X-XSS-Protection "1; mode=block"
+    Header always set Strict-Transport-Security "max-age=31536000"
+</IfModule>
+
+# Serve static files directly (bypass Django)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Serve static files directly
+    RewriteCond %{REQUEST_URI} ^/static/ [NC]
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f
+    RewriteRule ^ - [L]
+    
+    # Block access to sensitive paths
+    RewriteRule ^(backend/|core/|manage\.py|requirements\.txt|db\.sqlite3) - [F,L]
+</IfModule>
+
+# Error documents
+ErrorDocument 403 "Access Denied"
+ErrorDocument 404 "Not Found"
+ErrorDocument 500 "Internal Server Error"

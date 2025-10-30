@@ -1,0 +1,51 @@
+# Disable directory listing
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "^(db\.sqlite3|\.env|settings\.py|requirements\.txt|manage\.py)$">
+    Require all denied
+</FilesMatch>
+
+# Protect directories
+RedirectMatch 403 ^.*/(__pycache__|\.git|migrations|management)/.*$
+
+# Enable Passenger
+PassengerEnabled on
+PassengerAppRoot /home/jeremy-guerin/campilongo_api
+
+# Python environment
+PassengerPython /home/jeremy-guerin/virtualenv/campilongo_api/3.12/bin/python3
+
+# WSGI application
+PassengerStartupFile passenger_wsgi.py
+PassengerAppType wsgi
+
+# Performance settings
+PassengerMinInstances 1
+PassengerMaxPoolSize 2
+
+# Error handling
+ErrorDocument 404 "Not Found"
+ErrorDocument 500 "Internal Server Error"
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set X-XSS-Protection "1; mode=block"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# CORS headers for API (adjust origins as needed)
+<IfModule mod_headers.c>
+    SetEnvIf Origin "^https://(www\.)?campilongofreresrenovation\.fr$" AccessControlAllowOrigin=$0
+    Header add Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+    Header set Access-Control-Max-Age "3600"
+</IfModule>
+
+# Handle OPTIONS requests for CORS
+RewriteEngine On
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]

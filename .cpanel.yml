@@ -19,6 +19,14 @@ deployment:
     - pip install -r $DJANGO_PATH/requirements.txt
     - python3 $DJANGO_PATH/manage.py migrate
     - python3 $DJANGO_PATH/manage.py collectstatic --noinput
+    
+    # Copy .htaccess for Django API to the subdomain document root
+    - cp $REP_DJANGO_PATH/.htaccess.api $HOME/api.campilongofreresrenovation.fr/.htaccess
+    - chmod 644 $HOME/api.campilongofreresrenovation.fr/.htaccess
+    
+    # Create tmp directory for passenger restarts if it doesn't exist
+    - mkdir -p $DJANGO_PATH/tmp
+    - touch $DJANGO_PATH/tmp/restart.txt
 
     # Setup React environment
     # Build is done locally and pushed to repository
