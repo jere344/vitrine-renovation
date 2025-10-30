@@ -1,33 +1,10 @@
 # .htaccess for Django API subdomain (api.campilongofreresrenovation.fr)
 # This file should be placed in ~/api.campilongofreresrenovation.fr/
 # NOTE: Passenger is already configured via cPanel Python App manager
+# The actual Django code lives in ~/campilongo_api (not here)
 
 # Disable directory listing
 Options -Indexes
-
-# Protect sensitive files
-<FilesMatch "^(db\.sqlite3|\.env|.*\.pyc|.*\.pyo|requirements\.txt|manage\.py)$">
-    Order Allow,Deny
-    Deny from all
-</FilesMatch>
-
-# Protect sensitive directories and files
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    
-    # Block direct access to sensitive files (but allow Passenger internal access)
-    RewriteCond %{REQUEST_URI} ^/(db\.sqlite3|manage\.py|requirements\.txt|\.env) [NC]
-    RewriteRule ^ - [F,L]
-    
-    # Block access to sensitive directories
-    RewriteCond %{REQUEST_URI} ^/(__pycache__|\.git|backend/backend|core/migrations|core/management|backend/migrations) [NC]
-    RewriteRule ^ - [F,L]
-    
-    # Block direct HTTP access to .py files (except for Passenger internal use)
-    # This only blocks external web requests, not Passenger's internal loading
-    RewriteCond %{THE_REQUEST} \s/.*\.py [NC]
-    RewriteRule ^ - [F,L]
-</IfModule>
 
 # Security headers
 <IfModule mod_headers.c>
@@ -36,7 +13,3 @@ Options -Indexes
     Header set X-XSS-Protection "1; mode=block"
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>
-
-# Error documents
-ErrorDocument 403 "Access Denied"
-ErrorDocument 404 "Not Found"
