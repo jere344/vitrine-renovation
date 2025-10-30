@@ -34,8 +34,8 @@ Avant de commencer, assurez-vous d'avoir:
 2. Recherchez et cliquez sur **"Git™ Version Control"**
 3. Cliquez sur **"Create"**
 4. Remplissez les informations :
-   - **Clone URL**: L'URL de votre dépôt (ex: `https://github.com/votrecompte/vitrine-renovation.git`)
-   - **Repository Path**: `/home/votrecompte/repositories/vitrine-renovation`
+   - **Clone URL**: L'URL de votre dépôt (ex: `https://github.com/jere344/vitrine-renovation.git`)
+   - **Repository Path**: `/home/voyo8007/repositories/vitrine-renovation`
    - **Repository Name**: `vitrine-renovation`
 5. Cliquez sur **"Create"**
 
@@ -57,12 +57,12 @@ Avant de commencer, assurez-vous d'avoir:
 Connectez-vous via SSH ou utilisez le gestionnaire de fichiers cPanel pour créer :
 
 ```
-/home/votrecompte/
+/home/voyo8007/
 ├── repositories/
 │   └── vitrine-renovation/
 ├── campilongo_api/              # Django backend
 ├── campilongo_app/              # Build temporaire React
-├── campilongofreres.fr/         # Dossier public du site
+├── campilongofreresrenovation.fr/         # Dossier public du site
 └── virtualenv/
     └── campilongo_api/
         └── 3.12/
@@ -82,22 +82,22 @@ Utilisez le gestionnaire de fichiers ou SSH pour vérifier que tous les dossiers
 2. Cliquez sur **"Create Application"**
 3. Configurez :
    - **Python version**: 3.12
-   - **Application root**: `/home/votrecompte/campilongo_api`
-   - **Application URL**: `api.campilongofreres.fr` (ou votre sous-domaine)
+   - **Application root**: `/home/voyo8007/campilongo_api`
+   - **Application URL**: `api.campilongofreresrenovation.fr` (ou votre sous-domaine)
    - **Application startup file**: `passenger_wsgi.py`
    - **Application Entry point**: `application`
 4. Cliquez sur **"Create"**
 
 ### Étape 3.2 : Installer les Dépendances Django
 
-1. Copiez le chemin de l'environnement virtuel affiché (ex: `/home/votrecompte/virtualenv/campilongo_api/3.12/bin/activate`)
+1. Copiez le chemin de l'environnement virtuel affiché (ex: `/home/voyo8007/virtualenv/campilongo_api/3.12/bin/activate`)
 2. Connectez-vous via SSH :
    ```bash
-   ssh votrecompte@votreserveur.com
+   ssh voyo8007@votreserveur.com
    ```
 3. Activez l'environnement virtuel :
    ```bash
-   source /home/votrecompte/virtualenv/campilongo_api/3.12/bin/activate
+   source /home/voyo8007/virtualenv/campilongo_api/3.12/bin/activate
    ```
 4. Installez les dépendances :
    ```bash
@@ -107,7 +107,7 @@ Utilisez le gestionnaire de fichiers ou SSH pour vérifier que tous les dossiers
 
 ### Étape 3.3 : Configurer les Variables d'Environnement
 
-1. Créez un fichier `.env` dans `/home/votrecompte/campilongo_api` :
+1. Créez un fichier `.env` dans `/home/voyo8007/campilongo_api` :
    ```bash
    cd ~/campilongo_api
    nano .env
@@ -117,23 +117,23 @@ Utilisez le gestionnaire de fichiers ou SSH pour vérifier que tous les dossiers
    ```env
    DEBUG=False
    SECRET_KEY=votre-clé-secrète-très-longue-et-aléatoire
-   ALLOWED_HOSTS=campilongofreres.fr,www.campilongofreres.fr,api.campilongofreres.fr
+   ALLOWED_HOSTS=campilongofreresrenovation.fr,www.campilongofreresrenovation.fr,api.campilongofreresrenovation.fr
    
    # Base de données
    DATABASE_ENGINE=django.db.backends.sqlite3
-   DATABASE_NAME=/home/votrecompte/campilongo_api/db.sqlite3
+   DATABASE_NAME=/home/voyo8007/campilongo_api/db.sqlite3
    
    # Email (voir section Email)
-   EMAIL_HOST=mail.campilongofreres.fr
+   EMAIL_HOST=mail.campilongofreresrenovation.fr
    EMAIL_PORT=587
-   EMAIL_HOST_USER=contact@campilongofreres.fr
+   EMAIL_HOST_USER=contact@campilongofreresrenovation.fr
    EMAIL_HOST_PASSWORD=votre-mot-de-passe-email
    EMAIL_USE_TLS=True
-   DEFAULT_FROM_EMAIL=contact@campilongofreres.fr
+   DEFAULT_FROM_EMAIL=contact@campilongofreresrenovation.fr
    CONTACT_EMAIL=thomascampilongo@yahoo.fr
    
    # CORS
-   CORS_ALLOWED_ORIGINS=https://campilongofreres.fr,https://www.campilongofreres.fr
+   CORS_ALLOWED_ORIGINS=https://campilongofreresrenovation.fr,https://www.campilongofreresrenovation.fr
    ```
 
 3. Sauvegardez et fermez (Ctrl+O, Enter, Ctrl+X)
@@ -160,7 +160,7 @@ python manage.py createsuperuser
 
 2. Créez un fichier `.env.production` :
    ```env
-   VITE_API_URL=https://api.campilongofreres.fr/api
+   VITE_API_URL=https://api.campilongofreresrenovation.fr/api
    ```
 
 3. Installez les dépendances :
@@ -192,15 +192,15 @@ python manage.py createsuperuser
 ### Étape 5.1 : Configurer le Domaine Principal
 
 1. Dans cPanel, allez dans **"Domains"**
-2. Ajoutez votre domaine principal : `campilongofreres.fr`
-3. Pointez le **Document Root** vers : `/home/votrecompte/campilongofreres.fr`
+2. Ajoutez votre domaine principal : `campilongofreresrenovation.fr`
+3. Pointez le **Document Root** vers : `/home/voyo8007/campilongofreresrenovation.fr`
 
 ### Étape 5.2 : Configurer le Sous-domaine API
 
 1. Toujours dans **"Domains"**, cliquez sur **"Create A New Domain"**
 2. Configurez :
-   - **Domain**: `api.campilongofreres.fr`
-   - **Document Root**: `/home/votrecompte/campilongo_api`
+   - **Domain**: `api.campilongofreresrenovation.fr`
+   - **Document Root**: `/home/voyo8007/campilongo_api`
 3. Cliquez sur **"Submit"**
 
 ### Étape 5.3 : Configurer les DNS
@@ -215,7 +215,7 @@ Chez votre registrar de domaine :
 2. Ajoutez un enregistrement **CNAME** :
    - Nom : `www`
    - Type : CNAME
-   - Valeur : `campilongofreres.fr`
+   - Valeur : `campilongofreresrenovation.fr`
    - TTL : 3600
 
 3. Ajoutez un enregistrement **A** pour l'API :
@@ -227,7 +227,7 @@ Chez votre registrar de domaine :
 ### Étape 5.4 : Installer le Certificat SSL
 
 1. Dans cPanel, allez dans **"SSL/TLS Status"**
-2. Sélectionnez vos domaines : `campilongofreres.fr`, `www.campilongofreres.fr`, `api.campilongofreres.fr`
+2. Sélectionnez vos domaines : `campilongofreresrenovation.fr`, `www.campilongofreresrenovation.fr`, `api.campilongofreresrenovation.fr`
 3. Cliquez sur **"Run AutoSSL"**
 4. Attendez que les certificats soient installés (quelques minutes)
 
@@ -240,7 +240,7 @@ Chez votre registrar de domaine :
 1. Dans cPanel, allez dans **"Email Accounts"**
 2. Cliquez sur **"Create"**
 3. Configurez :
-   - **Email**: `contact@campilongofreres.fr`
+   - **Email**: `contact@campilongofreresrenovation.fr`
    - **Password**: Choisissez un mot de passe fort
    - **Storage Space**: 500 MB (ou selon vos besoins)
 4. Cliquez sur **"Create"**
@@ -248,17 +248,17 @@ Chez votre registrar de domaine :
 ### Étape 6.2 : Configurer les Paramètres SMTP
 
 1. Notez les paramètres SMTP de votre hébergeur (généralement) :
-   - **Serveur SMTP**: `mail.campilongofreres.fr`
+   - **Serveur SMTP**: `mail.campilongofreresrenovation.fr`
    - **Port**: 587 (TLS) ou 465 (SSL)
    - **Authentification**: Oui
-   - **Username**: `contact@campilongofreres.fr`
+   - **Username**: `contact@campilongofreresrenovation.fr`
    - **Password**: Le mot de passe que vous avez créé
 
 2. Ces paramètres sont déjà dans votre fichier `.env` Django (voir section 3.3)
 
 ### Étape 6.3 : Tester l'Envoi d'Email
 
-1. Connectez-vous au panneau d'administration Django : `https://api.campilongofreres.fr/admin`
+1. Connectez-vous au panneau d'administration Django : `https://api.campilongofreresrenovation.fr/admin`
 2. Allez dans la page de contact de votre site
 3. Envoyez un message de test
 4. Vérifiez la réception sur `thomascampilongo@yahoo.fr`
@@ -305,8 +305,8 @@ git push origin main
 ### Étape 7.4 : Vérifier le Déploiement
 
 1. Consultez les logs dans cPanel > Git Version Control > Deployment Logs
-2. Visitez votre site : `https://campilongofreres.fr`
-3. Vérifiez l'API : `https://api.campilongofreres.fr/api/`
+2. Visitez votre site : `https://campilongofreresrenovation.fr`
+3. Vérifiez l'API : `https://api.campilongofreresrenovation.fr/api/`
 
 ---
 
@@ -315,8 +315,8 @@ git push origin main
 ### Problème : Le site affiche une page blanche
 
 **Solution** :
-1. Vérifiez que le fichier `.htaccess` est présent dans `/home/votrecompte/campilongofreres.fr`
-2. Vérifiez les permissions des fichiers : `chmod -R 755 ~/campilongofreres.fr`
+1. Vérifiez que le fichier `.htaccess` est présent dans `/home/voyo8007/campilongofreresrenovation.fr`
+2. Vérifiez les permissions des fichiers : `chmod -R 755 ~/campilongofreresrenovation.fr`
 3. Vérifiez les logs d'erreur dans cPanel > Errors
 
 ### Problème : L'API ne fonctionne pas (500 Error)
@@ -336,7 +336,7 @@ git push origin main
 1. Vérifiez les paramètres SMTP dans le `.env`
 2. Testez la connexion SMTP depuis le serveur :
    ```bash
-   telnet mail.campilongofreres.fr 587
+   telnet mail.campilongofreresrenovation.fr 587
    ```
 3. Vérifiez les logs Django pour les erreurs d'email
 4. Assurez-vous que le port 587 n'est pas bloqué par le firewall
@@ -364,7 +364,7 @@ python manage.py collectstatic --noinput
 
 ### Connexion SSH
 ```bash
-ssh votrecompte@votreserveur.com
+ssh voyo8007@votreserveur.com
 ```
 
 ### Activer l'environnement virtuel Python
@@ -391,8 +391,8 @@ Via cPanel > Setup Python App > Restart
 
 ### Vérifier le statut du site
 ```bash
-curl -I https://campilongofreres.fr
-curl -I https://api.campilongofreres.fr/api/
+curl -I https://campilongofreresrenovation.fr
+curl -I https://api.campilongofreresrenovation.fr/api/
 ```
 
 ---

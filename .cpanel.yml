@@ -23,8 +23,8 @@ deployment:
     # Setup React environment
     # Build is done locally and pushed to repository
     # We just move the build folder to the public folder
-    - rsync -av --delete $REP_REACT_PATH/dist/ $HOME/campilongofreres.fr
-    - chmod -R 755 $HOME/campilongofreres.fr
-    - cp $REP_REACT_PATH/.htaccess $HOME/campilongofreres.fr/.htaccess
+    - rsync -av --delete $REP_REACT_PATH/dist/ $HOME/campilongofreresrenovation.fr
+    - chmod -R 755 $HOME/campilongofreresrenovation.fr
+    - cp $REP_REACT_PATH/.htaccess $HOME/campilongofreresrenovation.fr/.htaccess
 
     - echo "Deployment completed successfully"
