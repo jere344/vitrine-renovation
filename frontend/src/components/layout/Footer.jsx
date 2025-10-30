@@ -109,7 +109,7 @@ const Footer = () => {
             >
               <Box
                 component="img"
-                src="/src/assets/logo.jpg"
+                src="logo.jpg"
                 alt={companyInfo?.company_name || siteConfig.siteName}
                 sx={{
                   maxWidth: '180px',
