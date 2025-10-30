@@ -23,10 +23,6 @@ deployment:
     # Create tmp directory for passenger restarts
     - mkdir -p $DJANGO_PATH/tmp
     
-    # Remove any .htaccess files that could interfere with Passenger
-    - rm -f $HOME/api.campilongofreresrenovation.fr/.htaccess
-    - rm -f $DJANGO_PATH/.htaccess
-    
     # Restart the application
     - touch $DJANGO_PATH/tmp/restart.txt
 
