@@ -11,26 +11,22 @@ Options -Indexes
     Deny from all
 </FilesMatch>
 
-# Protect sensitive directories
+# Protect sensitive directories and files
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # Block access to sensitive directories and files
-    RewriteRule ^__pycache__/ - [F,L]
-    RewriteRule ^\.git/ - [F,L]
-    RewriteRule ^backend/backend/ - [F,L]
-    RewriteRule ^core/migrations/ - [F,L]
-    RewriteRule ^core/management/ - [F,L]
-    RewriteRule \.py$ - [F,L]
-    RewriteRule ^db\.sqlite3$ - [F,L]
+    # Block direct access to sensitive files (but allow Passenger internal access)
+    RewriteCond %{REQUEST_URI} ^/(db\.sqlite3|manage\.py|requirements\.txt|\.env) [NC]
+    RewriteRule ^ - [F,L]
     
-    # Allow static files
-    RewriteCond %{REQUEST_URI} ^/static/ [NC]
-    RewriteRule ^ - [L]
+    # Block access to sensitive directories
+    RewriteCond %{REQUEST_URI} ^/(__pycache__|\.git|backend/backend|core/migrations|core/management|backend/migrations) [NC]
+    RewriteRule ^ - [F,L]
     
-    # Allow media files
-    RewriteCond %{REQUEST_URI} ^/media/ [NC]
-    RewriteRule ^ - [L]
+    # Block direct HTTP access to .py files (except for Passenger internal use)
+    # This only blocks external web requests, not Passenger's internal loading
+    RewriteCond %{THE_REQUEST} \s/.*\.py [NC]
+    RewriteRule ^ - [F,L]
 </IfModule>
 
 # Security headers
