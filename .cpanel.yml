@@ -20,12 +20,14 @@ deployment:
     - python3 $DJANGO_PATH/manage.py migrate
     - python3 $DJANGO_PATH/manage.py collectstatic --noinput
     
-    # Copy .htaccess for Django API to the subdomain document root
-    - cp $REP_DJANGO_PATH/.htaccess.api $HOME/api.campilongofreresrenovation.fr/.htaccess
-    - chmod 644 $HOME/api.campilongofreresrenovation.fr/.htaccess
-    
-    # Create tmp directory for passenger restarts if it doesn't exist
+    # Create tmp directory for passenger restarts
     - mkdir -p $DJANGO_PATH/tmp
+    
+    # Remove any .htaccess files that could interfere with Passenger
+    - rm -f $HOME/api.campilongofreresrenovation.fr/.htaccess
+    - rm -f $DJANGO_PATH/.htaccess
+    
+    # Restart the application
     - touch $DJANGO_PATH/tmp/restart.txt
 
     # Setup React environment
