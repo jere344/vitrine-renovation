@@ -7,12 +7,24 @@ if sys.executable != INTERP:
     os.execl(INTERP, INTERP, *sys.argv)
 
 # Set up paths
-sys.path.insert(0, os.path.expanduser('~/campilongo_api'))
-sys.path.insert(0, os.path.expanduser('~/campilongo_api/backend'))
+project_home = os.path.expanduser('~/campilongo_api')
+if project_home not in sys.path:
+    sys.path.insert(0, project_home)
 
 # Set Django settings module
 os.environ['DJANGO_SETTINGS_MODULE'] = 'backend.settings'
 
+# Set environment to production
+os.environ.setdefault('DJANGO_ENV', 'production')
+
 # Import Django WSGI application
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
+try:
+    from django.core.wsgi import get_wsgi_application
+    application = get_wsgi_application()
+except Exception as e:
+    # Log the error for debugging
+    import traceback
+    with open(os.path.join(project_home, 'passenger_error.log'), 'w') as f:
+        f.write(f"Error loading Django application:\n")
+        f.write(traceback.format_exc())
+    raise
