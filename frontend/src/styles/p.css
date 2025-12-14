@@ -1,4 +1,4 @@
-/* Premium Global Styles */
+p Global Styles
 
 * {
   -webkit-font-smoothing: antialiased;
@@ -14,7 +14,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Premium gradient backgrounds */
+/* p gradient backgrounds */
 .gradient-primary {
   background: linear-gradient(135deg, #8B7355 0%, #6E5A42 100%);
 }
@@ -60,16 +60,16 @@ html {
   margin-right: auto;
 }
 
-/* Premium box shadows */
-.shadow-premium {
+/* p box shadows */
+.shadow-p {
   box-shadow: 0px 8px 24px rgba(139, 115, 85, 0.15);
 }
 
-.shadow-premium-hover {
+.shadow-p-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.shadow-premium-hover:hover {
+.shadow-p-hover:hover {
   box-shadow: 0px 12px 32px rgba(139, 115, 85, 0.22);
   transform: translateY(-4px);
 }
@@ -212,7 +212,7 @@ html {
   color: #3A3430;
 }
 
-/* Premium link styles */
+/* p link styles */
 a {
   text-decoration: none;
   color: inherit;
@@ -229,7 +229,7 @@ a:hover {
   outline-offset: 2px;
 }
 
-/* Premium backdrop blur */
+/* p backdrop blur */
 .backdrop-blur {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -250,8 +250,8 @@ a:hover {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Premium divider */
-.premium-divider {
+/* p divider */
+.p-divider {
   height: 1px;
   background: linear-gradient(
     90deg,
@@ -286,13 +286,13 @@ a:hover {
   animation: pulse 2s ease-in-out infinite;
 }
 
-/* Premium card hover effect */
-.premium-card {
+/* p card hover effect */
+.p-card {
   position: relative;
   overflow: hidden;
 }
 
-.premium-card::before {
+.p-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -308,6 +308,6 @@ a:hover {
   transition: left 0.5s ease;
 }
 
-.premium-card:hover::before {
+.p-card:hover::before {
   left: 100%;
 }

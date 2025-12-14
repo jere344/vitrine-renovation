@@ -42,7 +42,7 @@ class Command(BaseCommand):
                 'service': services['cuisine'],
                 'location': 'Lattes',
                 'short_desc': 'Transformation complète d\'une cuisine avec îlot central et électroménagers haut de gamme.',
-                'description': 'Projet de rénovation complète d\'une cuisine familiale. Création d\'un espace moderne et fonctionnel avec îlot central, plan de travail en quartz, et intégration d\'électroménagers premium. Les finitions soignées et l\'optimisation de l\'espace offrent un résultat élégant et pratique.',
+                'description': 'Projet de rénovation complète d\'une cuisine familiale. Création d\'un espace moderne et fonctionnel avec îlot central, plan de travail en quartz, et intégration d\'électroménagers p. Les finitions soignées et l\'optimisation de l\'espace offrent un résultat élégant et pratique.',
                 'duration': '3 semaines',
                 'surface': '25 m²',
                 'has_before_after': True,
@@ -200,26 +200,25 @@ class Command(BaseCommand):
         
         # Check if project already exists
         slug = f"projet-{project_num}"
-        project, created = Project.objects.get_or_create(
-            slug=slug,
-            defaults={
-                'title': project_data['title'],
-                'service': project_data['service'],
-                'location': project_data['location'],
-                'short_description': project_data['short_desc'],
-                'description': project_data['description'],
-                'duration': project_data['duration'],
-                'surface': project_data['surface'],
-                'has_before_after': project_data['has_before_after'],
-                'is_featured': project_data['has_before_after'],
-                'is_active': True,
-                'order': project_num,
-            }
-        )
+        existing_project = Project.objects.filter(slug=slug).first()
+        if existing_project:
+            existing_project.delete()
+            self.stdout.write(self.style.WARNING(f'  ⚠ Project {project_num} already exists, deleting and recreating...'))
         
-        if not created:
-            self.stdout.write(self.style.WARNING(f'  ⚠ Project {project_num} already exists, skipping...'))
-            return project
+        project = Project.objects.create(
+            slug=slug,
+            title=project_data['title'],
+            service=project_data['service'],
+            location=project_data['location'],
+            short_description=project_data['short_desc'],
+            description=project_data['description'],
+            duration=project_data['duration'],
+            surface=project_data['surface'],
+            has_before_after=project_data['has_before_after'],
+            is_featured=project_data['has_before_after'],
+            is_active=True,
+            order=project_num,
+        )
         
         # Import featured image (from "a" folder = after)
         if project_data['has_before_after']:
@@ -360,6 +359,10 @@ class Command(BaseCommand):
     def create_gallery_images(self, import_dir, media_dir):
         """Create some showcase gallery images for homepage"""
         self.stdout.write(self.style.SUCCESS('\n📸 Creating gallery showcase images...'))
+        
+        # Clear existing gallery images
+        GalleryImage.objects.all().delete()
+        self.stdout.write(self.style.WARNING('  Clearing existing gallery images...'))
         
         # Select some hero images from various projects  
         hero_selections = [

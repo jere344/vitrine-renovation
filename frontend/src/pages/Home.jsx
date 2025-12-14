@@ -392,26 +392,6 @@ const Home = () => {
                 </Typography>
               </Box>
             </Grid>
-            
-            <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  width: '100%',
-                  height: { xs: 300, md: 500 },
-                  bgcolor: 'background.default',
-                  borderRadius: 3,
-                  overflow: 'hidden',
-                  boxShadow: '0px 12px 32px rgba(102, 93, 93, 0.15)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Typography variant="body1" color="text.secondary">
-                  [Photo des deux propriétaires dans un intérieur rénové]
-                </Typography>
-              </Box>
-            </Grid>
           </Grid>
         </motion.div>
       </Container>
@@ -461,7 +441,7 @@ const Home = () => {
                     viewport={{ once: true }}
                   >
                       <Card 
-                        className="premium-card"
+                        className="p-card"
                         sx={{ 
                           display: 'flex', 
                           flexDirection: 'column',

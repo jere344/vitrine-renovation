@@ -1,14 +1,14 @@
 # Campilongo Frères Rénovation - Site Web
 
-Site web premium pour Campilongo Frères Rénovation, entreprise familiale spécialisée dans la plomberie et la rénovation intérieure à Lattes. Construit avec Django (backend) et React + Vite (frontend) avec un design moderne et élégant inspiré des sites web haut de gamme.
+Site web p pour Campilongo Frères Rénovation, entreprise familiale spécialisée dans la plomberie et la rénovation intérieure à Lattes. Construit avec Django (backend) et React + Vite (frontend) avec un design moderne et élégant inspiré des sites web haut de gamme.
 
 ## 🎨 Caractéristiques du Design
 
-- **Design Premium** : Interface élégante avec glassmorphisme, gradients et animations fluides
+- **Design p** : Interface élégante avec glassmorphisme, gradients et animations fluides
 - **Palette de Couleurs Personnalisée** : Intégration des couleurs du logo client (#dcccc0, #fefcfc, #665d5d)
 - **Typographie Sophistiquée** : Playfair Display pour les titres, Raleway/Montserrat pour le corps
 - **Responsive Design** : Parfaitement adapté aux mobiles, tablettes et ordinateurs
-- **Animations Premium** : Effets de hover, transitions fluides, apparitions progressives
+- **Animations p** : Effets de hover, transitions fluides, apparitions progressives
 
 ## 📚 Documentation
 
@@ -278,14 +278,14 @@ CORS_ALLOWED_ORIGINS=http://localhost:5173,http://localhost:5174
 VITE_API_URL=http://localhost:8000/api
 ```
 
-## 🎯 Fonctionnalités Premium
+## 🎯 Fonctionnalités p
 
 ### Design
 - ✅ Palette de couleurs personnalisée inspirée du logo
 - ✅ Glassmorphisme et effets de flou
 - ✅ Animations fluides avec Framer Motion
 - ✅ Navigation sticky avec effets au scroll
-- ✅ Cards premium avec hover effects
+- ✅ Cards p avec hover effects
 - ✅ Filtres interactifs sur la page Réalisations
 
 ### Pages

@@ -168,18 +168,24 @@ const Projects = () => {
       </Box>
 
       {/* Projects Grid */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Grid container spacing={4}>
+      <Container maxWidth="xl" sx={{ py: 8 }}>
+        <Box 
+          sx={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+            gap: 4 
+          }}
+        >
           {filteredProjects.map((project, index) => (
-            <Grid item xs={12} sm={6} md={4} key={project.id}>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              key={project.id}
+            >
                 <Card 
-                  className="premium-card"
+                  className="p-card"
                   sx={{ 
                     height: '100%', 
                     display: 'flex', 
@@ -290,9 +296,8 @@ const Projects = () => {
                   </Box>
                 </Card>
               </motion.div>
-            </Grid>
           ))}
-        </Grid>
+        </Box>
 
         {filteredProjects.length === 0 && (
           <Box sx={{ textAlign: 'center', py: 8 }}>
