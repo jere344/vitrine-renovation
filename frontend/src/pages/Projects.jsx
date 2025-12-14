@@ -35,8 +35,10 @@ const Projects = () => {
   const getImageUrl = (imagePath) => {
     if (!imagePath) return '';
     if (imagePath.startsWith('http')) return imagePath;
+    // Remove any leading slash to avoid double slashes
+    const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
     const baseUrl = siteConfig.apiUrl.replace('/api', '');
-    return `${baseUrl}${imagePath}`;
+    return `${baseUrl}/${cleanPath}`;
   };
 
   useEffect(() => {
@@ -169,7 +171,7 @@ const Projects = () => {
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Grid container spacing={4}>
           {filteredProjects.map((project, index) => (
-            <Grid item xs={12} sm={6} lg={4} key={project.id}>
+            <Grid item xs={12} sm={6} md={4} key={project.id}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -196,10 +198,11 @@ const Projects = () => {
                     <CardMedia
                       component="img"
                       height="280"
-                      image={getImageUrl(project.featured_image)}
+                      image={getImageUrl(project.featured_image_url || project.featured_image)}
                       alt={project.title}
                       sx={{
                         transition: 'transform 0.5s ease',
+                        objectFit: 'cover',
                         '&:hover': {
                           transform: 'scale(1.05)',
                         }
@@ -240,7 +243,7 @@ const Projects = () => {
                       </Box>
                     </Box>
                     
-                    {/* "Avant/Après" label if applicable */}
+                    {/* "Avanhas_before_afterbel if applicable */}
                     {project.is_featured && (
                       <Chip 
                         label="Avant/Après" 

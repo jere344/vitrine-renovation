@@ -344,7 +344,7 @@ VITE_API_URL=http://localhost:8000/api
 - Localisation : Lattes, France
 
 ### Développeur
-**Jérémy Guerin**
+**Guerin**
 - LinkedIn : [Profil LinkedIn](https://www.linkedin.com/in/jérémy-guerin-b9019b255/)
 - GitHub : [jere344](https://github.com/jere344)
 

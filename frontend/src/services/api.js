@@ -47,6 +47,17 @@ export const getTestimonials = async () => {
   return response.data;
 };
 
+// Gallery
+export const getGalleryImages = async () => {
+  const response = await api.get('/gallery/');
+  return response.data;
+};
+
+export const getHeroImages = async () => {
+  const response = await api.get('/gallery/hero/');
+  return response.data;
+};
+
 // Contact
 export const sendContactMessage = async (data) => {
   const response = await api.post('/contact/', data);

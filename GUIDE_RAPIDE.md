@@ -157,7 +157,7 @@ Pour les mises à jour techniques :
 ## 📞 Support Technique
 
 ### Développeur
-**Jérémy Guerin**
+**Guerin**
 - LinkedIn : [Profil LinkedIn](https://www.linkedin.com/in/jérémy-guerin-b9019b255/)
 - GitHub : [jere344](https://github.com/jere344)
 - Email : (contactez via LinkedIn)

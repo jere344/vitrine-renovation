@@ -446,7 +446,7 @@ python manage.py loaddata backup_20240101.json
 
 Pour toute question ou problème :
 - Email technique : thomascampilongo@yahoo.fr
-- Développeur : Jérémy Guerin
+- Développeur : Guerin
   - LinkedIn : https://www.linkedin.com/in/jérémy-guerin-b9019b255/
   - GitHub : https://github.com/jere344
 

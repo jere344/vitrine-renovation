@@ -77,9 +77,12 @@ class Project(models.Model):
     surface = models.CharField(max_length=100, verbose_name="Surface", blank=True)
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, blank=True, 
                                 related_name='projects', verbose_name="Service associé")
-    featured_image = models.URLField(max_length=500, verbose_name="Image principale (URL)", 
-                                     default="https://picsum.photos/800/600")
+    featured_image = models.ImageField(upload_to='projects/featured/', verbose_name="Image principale", 
+                                       blank=True, null=True)
+    before_image = models.ImageField(upload_to='projects/before/', verbose_name="Image avant (optionnel)", 
+                                     blank=True, null=True, help_text="Pour les projets avant/après")
     is_featured = models.BooleanField(default=False, verbose_name="Projet mis en avant")
+    has_before_after = models.BooleanField(default=False, verbose_name="Afficher avant/après")
     is_active = models.BooleanField(default=True, verbose_name="Actif")
     order = models.IntegerField(default=0, verbose_name="Ordre d'affichage")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -96,6 +99,9 @@ class Project(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
+        # Auto-set has_before_after if both images exist
+        if self.featured_image and self.before_image:
+            self.has_before_after = True
         super().save(*args, **kwargs)
 
 
@@ -103,9 +109,9 @@ class ProjectImage(models.Model):
     """Additional images for a project"""
     project = models.ForeignKey(Project, on_delete=models.CASCADE, 
                                related_name='images', verbose_name="Projet")
-    image = models.URLField(max_length=500, verbose_name="Image (URL)", 
-                           default="https://picsum.photos/800/600")
+    image = models.ImageField(upload_to='projects/gallery/', verbose_name="Image")
     caption = models.CharField(max_length=200, blank=True, verbose_name="Légende")
+    is_visible = models.BooleanField(default=True, verbose_name="Visible")
     order = models.IntegerField(default=0, verbose_name="Ordre")
     created_at = models.DateTimeField(auto_now_add=True)
     
@@ -139,6 +145,34 @@ class Testimonial(models.Model):
     
     def __str__(self):
         return f"{self.client_name} - {self.rating}/5"
+
+
+class GalleryImage(models.Model):
+    """Showcase images for homepage and company gallery"""
+    CATEGORY_CHOICES = [
+        ('hero', 'Image héro (homepage)'),
+        ('showcase', 'Vitrine'),
+        ('team', 'Équipe'),
+        ('other', 'Autre'),
+    ]
+    
+    title = models.CharField(max_length=200, verbose_name="Titre")
+    image = models.ImageField(upload_to='gallery/', verbose_name="Image")
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='showcase', verbose_name="Catégorie")
+    caption = models.CharField(max_length=300, blank=True, verbose_name="Légende/Description")
+    linked_project = models.ForeignKey('Project', on_delete=models.SET_NULL, null=True, blank=True, 
+                                      related_name='gallery_images', verbose_name="Projet lié")
+    is_active = models.BooleanField(default=True, verbose_name="Actif")
+    order = models.IntegerField(default=0, verbose_name="Ordre d'affichage")
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "Image de galerie"
+        verbose_name_plural = "Images de galerie"
+        ordering = ['order', '-created_at']
+    
+    def __str__(self):
+        return f"{self.title} ({self.get_category_display()})"
 
 
 class ContactMessage(models.Model):

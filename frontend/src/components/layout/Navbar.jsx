@@ -74,7 +74,6 @@ const Navbar = () => {
 
   const navItems = [
     { label: 'Accueil', path: '/' },
-    { label: 'Services', path: '/services' },
     { label: 'Réalisations', path: '/projets' },
     { label: 'À propos', path: '/a-propos' },
     { label: 'Contact', path: '/contact' },
@@ -217,7 +216,15 @@ const Navbar = () => {
           }}
         >
           <Container maxWidth="xl">
-            <Toolbar disableGutters sx={{ justifyContent: 'space-between', height: scrolled ? 70 : 90, transition: 'height 0.3s ease' }}>
+            <Toolbar 
+              disableGutters 
+              sx={{ 
+                justifyContent: 'space-between', 
+                height: scrolled ? { xs: 68, sm: 85 } : { xs: 80, sm: 110 },
+                transition: 'height 0.3s ease',
+                py: { xs: 1, sm: 0 },
+              }}
+            >
               <MotionBox
                 initial="initial"
                 animate="animate"
@@ -231,7 +238,9 @@ const Navbar = () => {
                     display: 'flex',
                     alignItems: 'center',
                     textDecoration: 'none',
-                    gap: 1.5,
+                    gap: { xs: 0.75, sm: 2 },
+                    flexShrink: 0,
+                    maxWidth: { xs: '60%', sm: 'none' },
                   }}
                 >
                   <Box
@@ -239,11 +248,14 @@ const Navbar = () => {
                     src="/src/assets/logo.jpg"
                     alt={companyInfo?.company_name || siteConfig.siteName}
                     sx={{
-                      height: scrolled ? 45 : 60,
+                      height: scrolled ? { xs: 48, sm: 65 } : { xs: 58, sm: 80 },
                       width: 'auto',
+                      maxWidth: { xs: 'none', sm: 'none' },
                       borderRadius: 1.5,
                       transition: 'all 0.3s ease',
                       boxShadow: `0 2px 8px ${alpha(theme.palette.common.black, 0.1)}`,
+                      objectFit: 'contain',
+                      flexShrink: 0,
                     }}
                   />
                   <Typography
@@ -255,8 +267,12 @@ const Navbar = () => {
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       letterSpacing: '0.5px',
-                      display: { xs: 'none', sm: 'block' },
-                      fontSize: { sm: '1rem', md: '1.25rem' },
+                      display: { xs: 'block', sm: 'block' },
+                      fontSize: { xs: '0.85rem', sm: '1.1rem', md: '1.4rem' },
+                      whiteSpace: { xs: 'normal', sm: 'nowrap' },
+                      overflow: 'hidden',
+                      lineHeight: { xs: 1.2, sm: 1.4 },
+                      maxWidth: { xs: '100%', sm: '200px', md: 'none' },
                     }}
                   >
                     {companyInfo?.company_name || siteConfig.siteName}
@@ -264,7 +280,7 @@ const Navbar = () => {
                 </Box>
               </MotionBox>
 
-              <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 0.5 }}>
+              <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 0.25 }}>
                 {navItems.map((item, index) => (
                   <MotionButton
                     key={item.path}
@@ -276,7 +292,8 @@ const Navbar = () => {
                     transition={{ delay: index * 0.1 }}
                     whileHover={{ scale: 1.05, color: theme.palette.primary.main }}
                     sx={{
-                      mx: 1,
+                      mx: 0.5,
+                      px: 1.5,
                       color: location.pathname === item.path ? 'primary.main' : 'text.primary',
                       fontWeight: location.pathname === item.path ? 700 : 500,
                       position: 'relative',

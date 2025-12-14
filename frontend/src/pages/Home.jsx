@@ -9,33 +9,52 @@ import {
   CardContent, 
   CardMedia,
   CardActions,
-  Rating
+  Rating,
+  ImageList,
+  ImageListItem,
+  alpha,
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
+import Masonry from '@mui/lab/Masonry';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import KitchenIcon from '@mui/icons-material/Kitchen';
+import BathtubIcon from '@mui/icons-material/Bathtub';
+import StorageIcon from '@mui/icons-material/Storage';
+import HomeIcon from '@mui/icons-material/Home';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import BuildIcon from '@mui/icons-material/Build';
+import PaletteIcon from '@mui/icons-material/Palette';
+import ConstructionIcon from '@mui/icons-material/Construction';
 import { 
   getCompanyInfo, 
   getServices, 
   getFeaturedProjects, 
-  getTestimonials 
+  getTestimonials,
+  getHeroImages
 } from '../services/api';
 import { siteConfig } from '../config/site';
 
 const Home = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [companyInfo, setCompanyInfo] = useState(null);
   const [services, setServices] = useState([]);
   const [projects, setProjects] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
+  const [heroImages, setHeroImages] = useState([]);
   const [loading, setLoading] = useState(true);
   
   // Helper function to get full image URL
   const getImageUrl = (imagePath) => {
     if (!imagePath) return '';
     if (imagePath.startsWith('http')) return imagePath;
+    const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
     const baseUrl = siteConfig.apiUrl.replace('/api', '');
-    return `${baseUrl}${imagePath}`;
+    return `${baseUrl}/${cleanPath}`;
   };
 
   useEffect(() => {
@@ -43,16 +62,18 @@ const Home = () => {
     
     const fetchData = async () => {
       try {
-        const [companyData, servicesData, projectsData, testimonialsData] = await Promise.all([
+        const [companyData, servicesData, projectsData, testimonialsData, heroData] = await Promise.all([
           getCompanyInfo(),
           getServices(),
           getFeaturedProjects(),
           getTestimonials(),
+          getHeroImages().catch(() => []), // Gallery is optional
         ]);
         setCompanyInfo(companyData);
         setServices(servicesData.results || servicesData);
         setProjects(projectsData.results || projectsData);
         setTestimonials(testimonialsData.results || testimonialsData);
+        setHeroImages(heroData || []);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -170,6 +191,147 @@ const Home = () => {
         </Container>
       </Box>
 
+      {/* Gallery Showcase Section */}
+      {heroImages.length > 0 && (
+        <Box sx={{ 
+          bgcolor: alpha(theme.palette.primary.main, 0.03),
+          py: { xs: 6, md: 10 },
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          <Container maxWidth="lg">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <Box sx={{ textAlign: 'center', mb: 6 }}>
+                <Box className="accent-line accent-line-center" sx={{ bgcolor: 'secondary.main' }} />
+                <Typography variant="h2" gutterBottom sx={{ fontWeight: 700 }}>
+                  Notre Savoir-Faire
+                </Typography>
+                <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 700, mx: 'auto' }}>
+                  Quelques aperçus de nos réalisations pour vous inspirer
+                </Typography>
+              </Box>
+
+              <ImageList
+                variant="quilted"
+                cols={isMobile ? 2 : 4}
+                rowHeight={isMobile ? 150 : 200}
+                gap={16}
+                sx={{
+                  overflow: 'hidden',
+                  '& .MuiImageListItem-root': {
+                    overflow: 'hidden',
+                    borderRadius: 3,
+                    cursor: 'pointer',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    '&:hover': {
+                      transform: 'scale(1.02)',
+                      boxShadow: theme.shadows[12],
+                      zIndex: 2,
+                    },
+                  },
+                }}
+              >
+                {heroImages.map((item, index) => {
+                  // Custom layout pattern: 1 big (2x2), 1 tall (1x2), rest fill (1x1)
+                  let cols = 1, rows = 1;
+                  if (!isMobile) {
+                    if (index === 0) { cols = 2; rows = 2; }      // Big image (2x2)
+                    else if (index === 1) { cols = 1; rows = 2; }  // Tall image (1x2)
+                    // All others are 1x1 by default
+                  } else {
+                    // Mobile: simpler layout
+                    if (index === 0) { cols = 2; rows = 2; }
+                  }
+                  
+                  return (
+                    <ImageListItem
+                      key={item.id}
+                      cols={cols}
+                      rows={rows}
+                      component={Link}
+                      to={item.project_slug ? `/projets/${item.project_slug}` : '/projets'}
+                      sx={{ textDecoration: 'none' }}
+                    >
+                    <img
+                      src={getImageUrl(item.image_url || item.image)}
+                      alt={item.title}
+                      loading="lazy"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        background: 'linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%)',
+                        color: 'white',
+                        p: 2,
+                        transition: 'all 0.3s ease',
+                      }}
+                    >
+                      <Typography 
+                        variant="subtitle1" 
+                        fontWeight={600}
+                        sx={{ 
+                          mb: 0.5,
+                          transition: 'all 0.3s ease',
+                          '.MuiImageListItem-root:hover &': {
+                            transform: 'translateY(-2px)',
+                          },
+                        }}
+                      >
+                        {item.title}
+                      </Typography>
+                      <Typography 
+                        variant="caption" 
+                        sx={{ 
+                          display: 'flex', 
+                          alignItems: 'center',
+                          opacity: 0,
+                          maxHeight: 0,
+                          overflow: 'hidden',
+                          transition: 'all 0.3s ease',
+                          '.MuiImageListItem-root:hover &': {
+                            opacity: 1,
+                            maxHeight: '2em',
+                          },
+                        }}
+                      >
+                        Voir le projet <ArrowForwardIcon fontSize="small" sx={{ ml: 0.5 }} />
+                      </Typography>
+                    </Box>
+                  </ImageListItem>
+                  );
+                })}
+              </ImageList>
+
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
+                <Button
+                  component={Link}
+                  to="/projets"
+                  variant="contained"
+                  size="large"
+                  endIcon={<ArrowForwardIcon />}
+                >
+                  Voir toutes nos réalisations
+                </Button>
+              </Box>
+            </motion.div>
+          </Container>
+        </Box>
+      )}
+
       {/* Company Story Section */}
       <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }}>
         <motion.div
@@ -272,135 +434,137 @@ const Home = () => {
             </Typography>
           </Box>
 
-          <Grid container spacing={4}>
-            {services.slice(0, 6).map((service, index) => (
-              <Grid item xs={12} sm={6} md={4} key={service.id}>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <Card 
-                    className="premium-card"
-                    sx={{ 
-                      height: '100%', 
-                      display: 'flex', 
-                      flexDirection: 'column',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      '&:hover': {
-                        transform: 'translateY(-8px)',
-                        boxShadow: '0px 12px 32px rgba(26, 26, 46, 0.15)',
-                      }
-                    }}
+          <Masonry
+            columns={{ xs: 1, sm: 2, md: 3 }}
+            spacing={3}
+          >
+            {services.map((service, index) => {
+              // Map icons for each service
+              const serviceIcons = [
+                KitchenIcon,      // Cuisine
+                BathtubIcon,      // Salle de bain
+                StorageIcon,      // Rangement
+                HomeIcon,         // Rénovation générale
+                LightbulbIcon,    // Electricité
+                BuildIcon,        // Plomberie
+                PaletteIcon,      // Peinture
+                ConstructionIcon, // Construction
+              ];
+              const ServiceIcon = serviceIcons[index % serviceIcons.length];
+
+              return (
+                <Box key={service.id}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
                   >
-                    {service.image && (
-                      <CardMedia
-                        component="img"
-                        height="220"
-                        image={getImageUrl(service.image)}
-                        alt={service.title}
+                      <Card 
+                        className="premium-card"
                         sx={{ 
-                          objectFit: 'cover',
-                          transition: 'transform 0.3s ease',
+                          display: 'flex', 
+                          flexDirection: 'column',
+                          position: 'relative',
+                          overflow: 'hidden',
+                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                          border: '2px solid transparent',
+                          height: '100%',
+                          '&:hover': {
+                            transform: 'translateY(-8px)',
+                            boxShadow: '0px 12px 32px rgba(26, 26, 46, 0.15)',
+                            borderColor: 'secondary.main',
+                            '& .service-icon': {
+                              transform: 'scale(1.1) rotate(5deg)',
+                            },
+                            '& .service-number': {
+                              color: 'secondary.main',
+                            },
+                          }
                         }}
-                      />
-                    )}
-                    <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                      <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 600, mb: 2 }}>
+                      >
+                    {/* Decorative Background */}
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: -50,
+                        right: -50,
+                        width: 150,
+                        height: 150,
+                        borderRadius: '50%',
+                        background: `linear-gradient(135deg, ${alpha(theme.palette.secondary.main, 0.1)} 0%, ${alpha(theme.palette.primary.main, 0.05)} 100%)`,
+                        opacity: 0.5,
+                      }}
+                    />
+                    
+                    <CardContent sx={{ flexGrow: 1, p: 4, position: 'relative' }}>
+                      {/* Number Badge */}
+                      <Typography 
+                        className="service-number"
+                        variant="h3" 
+                        sx={{ 
+                          fontWeight: 800,
+                          color: alpha(theme.palette.primary.main, 0.15),
+                          position: 'absolute',
+                          top: 16,
+                          right: 16,
+                          lineHeight: 1,
+                          transition: 'color 0.3s ease',
+                        }}
+                      >
+                        {String(index + 1).padStart(2, '0')}
+                      </Typography>
+
+                      {/* Service Icon */}
+                      <Box
+                        className="service-icon"
+                        sx={{
+                          width: 60,
+                          height: 60,
+                          borderRadius: 2,
+                          background: `linear-gradient(135deg, ${theme.palette.secondary.main} 0%, ${theme.palette.primary.main} 100%)`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          mb: 3,
+                          transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                        }}
+                      >
+                        <ServiceIcon sx={{ fontSize: 32, color: 'white' }} />
+                      </Box>
+
+                      <Typography 
+                        variant="h5" 
+                        gutterBottom 
+                        sx={{ 
+                          fontWeight: 700,
+                          mb: 2,
+                          color: 'primary.main',
+                          lineHeight: 1.3,
+                        }}
+                      >
                         {service.title}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>
-                        {service.short_description || service.description.substring(0, 150) + '...'}
+                      
+                      <Typography 
+                        variant="body2" 
+                        color="text.secondary" 
+                        sx={{ 
+                          lineHeight: 1.8,
+                          fontSize: '0.95rem',
+                        }}
+                      >
+                        {service.short_description || service.description.substring(0, 120) + '...'}
                       </Typography>
                     </CardContent>
                   </Card>
                 </motion.div>
-              </Grid>
-            ))}
-          </Grid>
-
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
-            <Button
-              component={Link}
-              to="/services"
-              variant="outlined"
-              color="primary"
-              size="large"
-              sx={{ px: 4 }}
-              endIcon={<ArrowForwardIcon />}
-            >
-              Voir tous les services
-            </Button>
-          </Box>
+              </Box>
+            );
+          })}
+          </Masonry>
         </motion.div>
       </Container>
-
-      {/* Featured Projects Section */}
-      {projects.length > 0 && (
-        <Box sx={{ bgcolor: 'background.default', py: 8 }}>
-          <Container maxWidth="lg">
-            <Typography variant="h2" align="center" gutterBottom>
-              Nos Réalisations
-            </Typography>
-            <Typography variant="h6" align="center" color="text.secondary" sx={{ mb: 6 }}>
-              Découvrez nos projets récents
-            </Typography>
-
-            <Grid container spacing={4}>
-              {projects.slice(0, 3).map((project, index) => (
-                <Grid item xs={12} md={4} key={project.id}>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <Card sx={{ height: '100%' }}>
-                      <CardMedia
-                        component="img"
-                        height="250"
-                        image={getImageUrl(project.featured_image)}
-                        alt={project.title}
-                      />
-                      <CardContent>
-                        <Typography variant="h5" gutterBottom>
-                          {project.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {project.short_description}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          component={Link}
-                          to={`/projets/${project.slug}`}
-                          size="small"
-                          endIcon={<ArrowForwardIcon />}
-                        >
-                          Voir le projet
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
-
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-              <Button
-                component={Link}
-                to="/projets"
-                variant="contained"
-                size="large"
-                endIcon={<ArrowForwardIcon />}
-              >
-                Voir toutes les réalisations
-              </Button>
-            </Box>
-          </Container>
-        </Box>
-      )}
 
       {/* Testimonials Section */}
       {testimonials.length > 0 && (

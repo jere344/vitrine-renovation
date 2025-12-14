@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import CompanyInfo, Service, Project, ProjectImage, Testimonial, ContactMessage
+from django.utils.html import format_html
+from .models import CompanyInfo, Service, Project, ProjectImage, Testimonial, ContactMessage, GalleryImage
 
 
 @admin.register(CompanyInfo)
@@ -42,21 +43,32 @@ class ServiceAdmin(admin.ModelAdmin):
 class ProjectImageInline(admin.TabularInline):
     model = ProjectImage
     extra = 1
-    fields = ['image', 'caption', 'order']
+    fields = ['image', 'caption', 'is_visible', 'order']
+    readonly_fields = ['image_preview']
+    
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-height: 100px; max-width: 150px;" />', obj.image.url)
+        return "-"
+    image_preview.short_description = "Aperçu"
 
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ['title', 'service', 'location', 'completion_date', 'is_featured', 'is_active', 'order']
-    list_filter = ['is_active', 'is_featured', 'service', 'completion_date']
-    search_fields = ['title', 'description', 'location']
+    list_display = ['title', 'service', 'location', 'completion_date', 'has_before_after', 'is_featured', 'is_active', 'order']
+    list_filter = ['is_active', 'is_featured', 'has_before_after', 'service', 'completion_date']
+    search_fields = ['title', 'description', 'location', 'slug']
     prepopulated_fields = {'slug': ('title',)}
     list_editable = ['is_featured', 'is_active', 'order']
     ordering = ['-is_featured', 'order', '-completion_date']
     inlines = [ProjectImageInline]
+    readonly_fields = ['featured_image_preview', 'before_image_preview']
     fieldsets = (
         ('Informations principales', {
-            'fields': ('title', 'slug', 'service', 'featured_image')
+            'fields': ('title', 'slug', 'service')
+        }),
+        ('Images', {
+            'fields': ('featured_image', 'featured_image_preview', 'before_image', 'before_image_preview')
         }),
         ('Description', {
             'fields': ('short_description', 'description')
@@ -65,9 +77,21 @@ class ProjectAdmin(admin.ModelAdmin):
             'fields': ('location', 'completion_date', 'duration', 'surface')
         }),
         ('Options', {
-            'fields': ('is_featured', 'is_active', 'order')
+            'fields': ('is_featured', 'has_before_after', 'is_active', 'order')
         }),
     )
+    
+    def featured_image_preview(self, obj):
+        if obj.featured_image:
+            return format_html('<img src="{}" style="max-height: 200px; max-width: 300px;" />', obj.featured_image.url)
+        return "-"
+    featured_image_preview.short_description = "Aperçu image principale"
+    
+    def before_image_preview(self, obj):
+        if obj.before_image:
+            return format_html('<img src="{}" style="max-height: 200px; max-width: 300px;" />', obj.before_image.url)
+        return "-"
+    before_image_preview.short_description = "Aperçu image avant"
 
 
 @admin.register(Testimonial)
@@ -77,6 +101,42 @@ class TestimonialAdmin(admin.ModelAdmin):
     search_fields = ['client_name', 'client_location', 'content']
     list_editable = ['is_active', 'order']
     ordering = ['order', '-created_at']
+
+
+@admin.register(GalleryImage)
+class GalleryImageAdmin(admin.ModelAdmin):
+    list_display = ['title', 'linked_project', 'category', 'is_active', 'order', 'image_thumbnail']
+    list_filter = ['is_active', 'category', 'linked_project']
+    search_fields = ['title', 'caption']
+    list_editable = ['is_active', 'order']
+    ordering = ['order', '-created_at']
+    readonly_fields = ['image_preview']
+    autocomplete_fields = ['linked_project']
+    
+    fieldsets = (
+        ('Informations', {
+            'fields': ('title', 'image', 'image_preview', 'category', 'caption')
+        }),
+        ('Lien vers projet', {
+            'fields': ('linked_project',),
+            'description': 'Sélectionnez un projet pour créer un lien cliquable depuis cette image'
+        }),
+        ('Options', {
+            'fields': ('is_active', 'order')
+        }),
+    )
+    
+    def image_thumbnail(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-height: 50px; max-width: 75px; border-radius: 4px;" />', obj.image.url)
+        return "-"
+    image_thumbnail.short_description = "Image"
+    
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-height: 300px; max-width: 450px;" />', obj.image.url)
+        return "-"
+    image_preview.short_description = "Aperçu"
 
 
 @admin.register(ContactMessage)

@@ -64,7 +64,6 @@ const Footer = () => {
 
   const quickLinks = [
     { label: 'Accueil', path: '/' },
-    { label: 'Services', path: '/services' },
     { label: 'Réalisations', path: '/projets' },
     { label: 'À propos', path: '/a-propos' },
     { label: 'Contact', path: '/contact' },
@@ -349,7 +348,7 @@ const Footer = () => {
                 '&:hover': { color: theme.palette.accent.main }
               }}
             >
-              Jérémy Guerin
+              Guerin
             </MuiLink>
           </Typography>
         </Box>

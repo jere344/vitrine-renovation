@@ -7,8 +7,7 @@ import {
   Grid, 
   Chip,
   Button,
-  ImageList,
-  ImageListItem,
+  Divider,
 } from '@mui/material';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
@@ -19,6 +18,8 @@ import TimerIcon from '@mui/icons-material/Timer';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import { getProject } from '../services/api';
 import { siteConfig } from '../config/site';
+import BeforeAfterComparison from '../components/BeforeAfterComparison';
+import ImageGallery from '../components/ImageGallery';
 
 const ProjectDetail = () => {
   const { slug } = useParams();
@@ -210,24 +211,29 @@ const ProjectDetail = () => {
           </Grid>
         </Grid>
 
+        {/* Before/After Comparison */}
+        {project.has_before_after && project.before_image_url && project.featured_image_url && (
+          <Box sx={{ mt: 8 }}>
+            <BeforeAfterComparison
+              beforeImage={getImageUrl(project.before_image_url)}
+              afterImage={getImageUrl(project.featured_image_url)}
+              alt={project.title}
+            />
+          </Box>
+        )}
+
+        {/* Divider */}
+        {project.has_before_after && project.images && project.images.length > 0 && (
+          <Divider sx={{ my: 8 }} />
+        )}
+
         {/* Project Gallery */}
         {project.images && project.images.length > 0 && (
           <Box sx={{ mt: 6 }}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
               Galerie photos
             </Typography>
-            <ImageList variant="masonry" cols={3} gap={16}>
-              {project.images.map((img) => (
-                <ImageListItem key={img.id}>
-                  <img
-                    src={getImageUrl(img.image)}
-                    alt={img.caption || project.title}
-                    loading="lazy"
-                    style={{ borderRadius: 8 }}
-                  />
-                </ImageListItem>
-              ))}
-            </ImageList>
+            <ImageGallery images={project.images} getImageUrl={getImageUrl} />
           </Box>
         )}
       </Container>

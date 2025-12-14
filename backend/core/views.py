@@ -2,11 +2,11 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .models import CompanyInfo, Service, Project, Testimonial, ContactMessage
+from .models import CompanyInfo, Service, Project, Testimonial, ContactMessage, GalleryImage
 from .serializers import (
     CompanyInfoSerializer, ServiceSerializer, 
     ProjectListSerializer, ProjectDetailSerializer,
-    TestimonialSerializer, ContactMessageSerializer
+    TestimonialSerializer, ContactMessageSerializer, GalleryImageSerializer
 )
 from django.conf import settings
 from django.core.mail import send_mail, BadHeaderError
@@ -113,4 +113,21 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
             {'message': 'Votre message a été envoyé avec succès. Nous vous recontacterons bientôt.'},
             status=status.HTTP_201_CREATED
         )
+
+
+class GalleryImageViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint for gallery images.
+    list: Get all active gallery images
+    hero: Get hero images for homepage
+    """
+    queryset = GalleryImage.objects.filter(is_active=True)
+    serializer_class = GalleryImageSerializer
+    
+    @action(detail=False, methods=['get'])
+    def hero(self, request):
+        """Get only hero images for homepage"""
+        hero_images = self.queryset.filter(category='hero')
+        serializer = self.get_serializer(hero_images, many=True, context={'request': request})
+        return Response(serializer.data)
 

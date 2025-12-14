@@ -230,9 +230,12 @@ const theme = createTheme({
           background: 'linear-gradient(135deg, #A38A70 0%, #8B7355 70%, #6E5A42 100%)',
           boxShadow: '0 4px 12px rgba(139, 115, 85, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.2)',
           border: '1px solid rgba(255, 255, 255, 0.15)',
+          color: '#fefcfc !important',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
-            background: 'linear-gradient(135deg, #B39A80 0%, #9B8365 70%, #7E6A52 100%)',
+            background: '#6E5A42 !important',
             boxShadow: '0px 6px 16px rgba(139, 115, 85, 0.45)',
+            color: '#fefcfc !important',
           },
         },
         containedSecondary: {
@@ -241,8 +244,27 @@ const theme = createTheme({
           border: '1px solid rgba(255, 255, 255, 0.15)',
           color: '#fefcfc',
           '&:hover': {
-            background: 'linear-gradient(135deg, #9a8f8f 0%, #756c6c 70%, #5a5252 100%)',
+            background: '#4a4242',
             boxShadow: '0px 6px 16px rgba(102, 93, 93, 0.4)',
+            color: '#fefcfc',
+          },
+        },
+        outlinedPrimary: {
+          borderColor: '#8B7355',
+          color: '#8B7355',
+          '&:hover': {
+            borderColor: '#6E5A42',
+            backgroundColor: 'rgba(139, 115, 85, 0.08)',
+            color: '#6E5A42',
+          },
+        },
+        outlinedSecondary: {
+          borderColor: '#665d5d',
+          color: '#665d5d',
+          '&:hover': {
+            borderColor: '#4a4242',
+            backgroundColor: 'rgba(102, 93, 93, 0.08)',
+            color: '#4a4242',
           },
         },
         outlined: {
