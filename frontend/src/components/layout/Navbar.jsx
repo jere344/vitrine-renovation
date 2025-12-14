@@ -143,7 +143,7 @@ const Navbar = () => {
       >
         <Box
           component="img"
-          src="/src/assets/logo.jpg"
+          src="logo.jpg"
           alt={companyInfo?.company_name || siteConfig.siteName}
           sx={{
             maxWidth: '150px',
@@ -245,7 +245,7 @@ const Navbar = () => {
                 >
                   <Box
                     component="img"
-                    src="/src/assets/logo.jpg"
+                    src="logo.jpg"
                     alt={companyInfo?.company_name || siteConfig.siteName}
                     sx={{
                       height: scrolled ? { xs: 48, sm: 65 } : { xs: 58, sm: 80 },

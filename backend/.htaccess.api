@@ -1,0 +1,15 @@
+# .htaccess for Django API subdomain (api.campilongofreresrenovation.fr)
+# This file should be placed in ~/api.campilongofreresrenovation.fr/
+# NOTE: Passenger is already configured via cPanel Python App manager
+# The actual Django code lives in ~/campilongo_api (not here)
+
+# Disable directory listing
+Options -Indexes
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set X-XSS-Protection "1; mode=block"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
