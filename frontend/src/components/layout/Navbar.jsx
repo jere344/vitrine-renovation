@@ -22,6 +22,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
+import PhoneIcon from '@mui/icons-material/Phone';
+import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { getCompanyInfo } from '../../services/api';
@@ -191,6 +193,48 @@ const Navbar = () => {
           </MotionListItem>
         ))}
       </List>
+      
+      {/* Mobile Quick Action Buttons */}
+      <Box sx={{ px: 2, mt: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Button
+          component={Link}
+          to="/contact?type=devis"
+          onClick={handleDrawerToggle}
+          variant="contained"
+          color="secondary"
+          fullWidth
+          startIcon={<RequestQuoteIcon />}
+          sx={{
+            py: 1.5,
+            fontWeight: 600,
+            borderRadius: 2,
+            textTransform: 'none',
+            boxShadow: `0 2px 8px ${alpha(theme.palette.secondary.main, 0.3)}`,
+          }}
+        >
+          Demander un devis
+        </Button>
+        <Button
+          component="a"
+          href={`tel:${siteConfig.contact.phone}`}
+          variant="outlined"
+          color="primary"
+          fullWidth
+          startIcon={<PhoneIcon />}
+          sx={{
+            py: 1.5,
+            fontWeight: 600,
+            borderRadius: 2,
+            textTransform: 'none',
+            borderWidth: 2,
+            '&:hover': {
+              borderWidth: 2,
+            }
+          }}
+        >
+          Appeler directement
+        </Button>
+      </Box>
     </Box>
   );
 
@@ -220,9 +264,9 @@ const Navbar = () => {
               disableGutters 
               sx={{ 
                 justifyContent: 'space-between', 
-                height: scrolled ? { xs: 68, sm: 85 } : { xs: 80, sm: 110 },
+                height: scrolled ? { xs: 70, sm: 100 } : { xs: 80, sm: 130 },
                 transition: 'height 0.3s ease',
-                py: { xs: 1, sm: 0 },
+                py: { xs: 0.5, sm: 0 },
               }}
             >
               <MotionBox
@@ -239,8 +283,10 @@ const Navbar = () => {
                     alignItems: 'center',
                     textDecoration: 'none',
                     gap: { xs: 0.75, sm: 2 },
-                    flexShrink: 0,
-                    maxWidth: { xs: '60%', sm: 'none' },
+                    flexShrink: 1,
+                    minWidth: 0,
+                    flex: { xs: 1, md: 'none' },
+                    overflow: 'hidden',
                   }}
                 >
                   <Box
@@ -248,7 +294,7 @@ const Navbar = () => {
                     src="logo.jpg"
                     alt={companyInfo?.company_name || siteConfig.siteName}
                     sx={{
-                      height: scrolled ? { xs: 48, sm: 65 } : { xs: 58, sm: 80 },
+                      height: scrolled ? { xs: 45, sm: 75 } : { xs: 55, sm: 95 },
                       width: 'auto',
                       maxWidth: { xs: 'none', sm: 'none' },
                       borderRadius: 1.5,
@@ -267,12 +313,13 @@ const Navbar = () => {
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       letterSpacing: '0.5px',
-                      display: { xs: 'block', sm: 'block' },
-                      fontSize: { xs: '0.85rem', sm: '1.1rem', md: '1.4rem' },
-                      whiteSpace: { xs: 'normal', sm: 'nowrap' },
+                      display: 'block',
+                      fontSize: { xs: '0.7rem', sm: '1rem', md: '1.4rem' },
+                      whiteSpace: { xs: 'normal', md: 'nowrap' },
+                      lineHeight: 1.2,
+                      wordBreak: 'break-word',
                       overflow: 'hidden',
-                      lineHeight: { xs: 1.2, sm: 1.4 },
-                      maxWidth: { xs: '100%', sm: '200px', md: 'none' },
+                      textOverflow: 'ellipsis',
                     }}
                   >
                     {companyInfo?.company_name || siteConfig.siteName}
@@ -280,7 +327,7 @@ const Navbar = () => {
                 </Box>
               </MotionBox>
 
-              <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 0.25 }}>
+              <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 0.25, alignItems: 'center' }}>
                 {navItems.map((item, index) => (
                   <MotionButton
                     key={item.path}
@@ -315,20 +362,117 @@ const Navbar = () => {
                     {item.label}
                   </MotionButton>
                 ))}
+                
+                {/* Quick Action Buttons */}
+                <Box sx={{ display: 'flex', gap: 1, ml: 2 }}>
+                  <Button
+                    component={Link}
+                    to="/contact?type=devis"
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    startIcon={<RequestQuoteIcon />}
+                    sx={{
+                      px: 2,
+                      py: 0.75,
+                      fontWeight: 600,
+                      borderRadius: 2,
+                      textTransform: 'none',
+                      fontSize: '0.875rem',
+                      boxShadow: `0 2px 8px ${alpha(theme.palette.secondary.main, 0.3)}`,
+                      '&:hover': {
+                        transform: 'translateY(-1px)',
+                        boxShadow: `0 4px 12px ${alpha(theme.palette.secondary.main, 0.4)}`,
+                      }
+                    }}
+                  >
+                    Devis
+                  </Button>
+                  <Button
+                    component="a"
+                    href={`tel:${siteConfig.contact.phone}`}
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                    startIcon={<PhoneIcon />}
+                    sx={{
+                      px: 2,
+                      py: 0.75,
+                      fontWeight: 600,
+                      borderRadius: 2,
+                      textTransform: 'none',
+                      fontSize: '0.875rem',
+                      borderWidth: 2,
+                      '&:hover': {
+                        borderWidth: 2,
+                        transform: 'translateY(-1px)',
+                        backgroundColor: alpha(theme.palette.primary.main, 0.05),
+                      }
+                    }}
+                  >
+                    Appeler
+                  </Button>
+                </Box>
               </Box>
 
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="end"
-                onClick={handleDrawerToggle}
-                sx={{ 
-                  display: { md: 'none' },
-                  color: 'text.primary',
-                }}
-              >
-                <MenuIcon />
-              </IconButton>
+              {/* Mobile: Quick Action Buttons + Menu Icon */}
+              <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 0.75, flexShrink: 0 }}>
+                {/* Compact buttons for mobile */}
+                <Button
+                  component={Link}
+                  to="/contact?type=devis"
+                  variant="contained"
+                  color="secondary"
+                  size="small"
+                  sx={{
+                    minWidth: 'auto',
+                    px: 1.5,
+                    py: 0.5,
+                    fontWeight: 600,
+                    borderRadius: 1.5,
+                    textTransform: 'none',
+                    fontSize: '0.75rem',
+                    boxShadow: `0 2px 6px ${alpha(theme.palette.secondary.main, 0.3)}`,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  Devis
+                </Button>
+                <Button
+                  component="a"
+                  href={`tel:${siteConfig.contact.phone}`}
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  sx={{
+                    minWidth: 'auto',
+                    px: 1,
+                    py: 0.5,
+                    fontWeight: 600,
+                    borderRadius: 1.5,
+                    borderWidth: 2,
+                    flexShrink: 0,
+                    '&:hover': {
+                      borderWidth: 2,
+                    }
+                  }}
+                >
+                  <PhoneIcon sx={{ fontSize: '1rem' }} />
+                </Button>
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="end"
+                  onClick={handleDrawerToggle}
+                  sx={{ 
+                    color: 'text.primary',
+                    ml: 0.5,
+                    flexShrink: 0,
+                  }}
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Box>
             </Toolbar>
           </Container>
         </AppBar>

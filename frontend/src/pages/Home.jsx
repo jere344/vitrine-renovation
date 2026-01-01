@@ -95,7 +95,7 @@ const Home = () => {
       {/* Hero Section */}
       <Box
         sx={{
-          background: 'linear-gradient(135deg, #665d5d 0%, #4a4242 100%)',
+          bgcolor: 'primary.main',
           color: 'white',
           py: { xs: 12, md: 16 },
           position: 'relative',
@@ -107,7 +107,7 @@ const Home = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'radial-gradient(circle at 20% 50%, rgba(220, 204, 192, 0.15) 0%, transparent 50%)',
+            background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(26, 26, 46, 0) 50%)',
             pointerEvents: 'none',
           }
         }}
@@ -147,7 +147,7 @@ const Home = () => {
                 <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                   <Button
                     component={Link}
-                    to="/contact"
+                    to="/contact?type=devis"
                     variant="contained"
                     color="secondary"
                     size="large"
@@ -163,8 +163,8 @@ const Home = () => {
                     Demander un devis gratuit
                   </Button>
                   <Button
-                    component={Link}
-                    to="/projets"
+                    component="a"
+                    href={`tel:${siteConfig.contact.phone}`}
                     variant="outlined"
                     size="large"
                     sx={{
@@ -182,7 +182,7 @@ const Home = () => {
                       },
                     }}
                   >
-                    Nos réalisations
+                    Contact direct
                   </Button>
                 </Box>
               </motion.div>
@@ -332,69 +332,7 @@ const Home = () => {
         </Box>
       )}
 
-      {/* Company Story Section */}
-      <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }}>
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Box className="accent-line accent-line-center" sx={{ bgcolor: 'secondary.main' }} />
-            <Typography variant="h2" gutterBottom sx={{ fontWeight: 700, fontFamily: '"Merriweather", serif' }}>
-              {siteConfig.story.title}
-            </Typography>
-          </Box>
 
-          <Grid container spacing={6} alignItems="center">
-            <Grid item xs={12} md={6}>
-              <Typography 
-                variant="body1" 
-                paragraph 
-                sx={{ 
-                  lineHeight: 1.8, 
-                  fontSize: '1.1rem',
-                  color: 'text.primary',
-                  mb: 3
-                }}
-              >
-                {siteConfig.story.content}
-              </Typography>
-              
-              <Box sx={{ mt: 4 }}>
-                <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, mb: 2, fontFamily: '"Merriweather", serif' }}>
-                  Nos spécialités
-                </Typography>
-                <Box component="ul" sx={{ pl: 2 }}>
-                  {siteConfig.specialties.map((specialty, index) => (
-                    <Typography 
-                      key={index}
-                      component="li" 
-                      variant="body1" 
-                      sx={{ 
-                        mb: 1.5,
-                        lineHeight: 1.7,
-                        '&::marker': {
-                          color: 'secondary.main',
-                        }
-                      }}
-                    >
-                      {specialty}
-                    </Typography>
-                  ))}
-                </Box>
-              </Box>
-
-              <Box sx={{ mt: 4, p: 3, bgcolor: 'background.default', borderRadius: 2, borderLeft: '4px solid', borderColor: 'secondary.main' }}>
-                <Typography variant="body1" sx={{ fontStyle: 'italic', fontWeight: 500 }}>
-                  "Nous mettons un point d'honneur à respecter les délais, à assurer un suivi rigoureux et à offrir une qualité de finition reconnue. Toutes nos prestations sont bien entendu couvertes par une assurance décennale."
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </motion.div>
-      </Container>
 
       {/* Services Section */}
       <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }}>

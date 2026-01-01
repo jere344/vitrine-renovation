@@ -82,7 +82,7 @@ const Projects = () => {
       {/* Page Header */}
       <Box 
         sx={{ 
-          background: 'linear-gradient(135deg, #665d5d 0%, #4a4242 100%)',
+          bgcolor: 'primary.main',
           color: 'white', 
           py: { xs: 8, md: 10 },
           position: 'relative',
@@ -94,7 +94,7 @@ const Projects = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'radial-gradient(circle at 80% 50%, rgba(220, 204, 192, 0.15) 0%, transparent 50%)',
+            background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(26, 26, 46, 0) 50%)',
             pointerEvents: 'none',
           }
         }}

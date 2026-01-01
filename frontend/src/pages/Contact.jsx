@@ -26,6 +26,7 @@ const Contact = () => {
     name: '',
     email: '',
     phone: '',
+    address: '',
     subject: '',
     message: ''
   });
@@ -61,6 +62,7 @@ const Contact = () => {
         name: '',
         email: '',
         phone: '',
+        address: '',
         subject: '',
         message: ''
       });
@@ -490,6 +492,25 @@ const Contact = () => {
                         }}
                       />
                     </Box>
+
+                    <TextField
+                      fullWidth
+                      label="Adresse postale"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleChange}
+                      disabled={loading}
+                      placeholder="Votre adresse complète (rue, code postal, ville)"
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          borderRadius: 2,
+                          backgroundColor: 'white',
+                          '&:hover fieldset': {
+                            borderColor: 'secondary.main',
+                          },
+                        },
+                      }}
+                    />
 
                     <TextField
                       required

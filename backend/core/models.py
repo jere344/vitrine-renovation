@@ -187,6 +187,7 @@ class ContactMessage(models.Model):
     name = models.CharField(max_length=200, verbose_name="Nom")
     email = models.EmailField(verbose_name="Email")
     phone = models.CharField(max_length=20, verbose_name="Téléphone", blank=True)
+    address = models.TextField(verbose_name="Adresse postale", blank=True)
     subject = models.CharField(max_length=200, verbose_name="Sujet", blank=True)
     message = models.TextField(verbose_name="Message")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', verbose_name="Statut")

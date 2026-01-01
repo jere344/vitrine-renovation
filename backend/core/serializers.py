@@ -101,5 +101,5 @@ class GalleryImageSerializer(serializers.ModelSerializer):
 class ContactMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactMessage
-        fields = ['id', 'name', 'email', 'phone', 'subject', 'message', 'created_at']
+        fields = ['id', 'name', 'email', 'phone', 'address', 'subject', 'message', 'created_at']
         read_only_fields = ['created_at']
