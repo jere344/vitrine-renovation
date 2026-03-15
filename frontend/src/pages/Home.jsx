@@ -93,7 +93,7 @@ const Home = () => {
   return (
     <>
       {/* Hero Section */}
-      <Box
+      {/*<Box
         sx={{
           bgcolor: 'primary.main',
           color: 'white',
@@ -189,7 +189,7 @@ const Home = () => {
             </Grid>
           </Grid>
         </Container>
-      </Box>
+      </Box>*/}
 
       {/* Gallery Showcase Section */}
       {heroImages.length > 0 && (
