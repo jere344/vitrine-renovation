@@ -43,9 +43,7 @@ class Service(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField(verbose_name="Description")
     short_description = models.CharField(max_length=300, verbose_name="Description courte", blank=True)
-    icon = models.CharField(max_length=50, verbose_name="Icône Material UI", default="HomeRepairService")
-    image = models.URLField(max_length=500, blank=True, verbose_name="Image (URL)", 
-                           default="https://picsum.photos/800/600")
+    icon = models.CharField(max_length=50, verbose_name="Icône Material UI (https://mui.com/material-ui/material-icons/)", default="HomeRepairService")
     order = models.IntegerField(default=0, verbose_name="Ordre d'affichage")
     is_active = models.BooleanField(default=True, verbose_name="Actif")
     created_at = models.DateTimeField(auto_now_add=True)
